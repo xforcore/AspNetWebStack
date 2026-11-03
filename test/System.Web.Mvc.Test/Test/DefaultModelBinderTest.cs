@@ -1442,7 +1442,9 @@ namespace System.Web.Mvc.Test
             MissingMethodException exception = Assert.Throws<MissingMethodException>(
                 () => helper.PublicCreateModel(null, null, typeof(NoParameterlessCtor)),
                 "No parameterless constructor defined for type 'System.Web.Mvc.Test.DefaultModelBinderTest+NoParameterlessCtor'."); // webForCore: .NET's message
-            Assert.Contains("System.RuntimeType.CreateInstanceDefaultCtor", exception.ToString()); // webForCore: .NET's frames
+            // webForCore: .NET's message names the type, so CreateModel rethrows .NET's exception. Which of .NET's Activator frames
+            // show depends on the JIT's inlining (#74); CreateModel's own frame always shows, as a method with a catch isn't inlined.
+            Assert.Contains("at System.Web.Mvc.DefaultModelBinder.CreateModel(", exception.ToString());
         }
 
         [Fact]
