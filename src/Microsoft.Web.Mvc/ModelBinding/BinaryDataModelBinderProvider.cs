@@ -2,7 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+// webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; its Binary support is compiled out.
+#if NETFRAMEWORK
 using System.Data.Linq;
+#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web.Mvc;
@@ -15,7 +18,9 @@ namespace Microsoft.Web.Mvc.ModelBinding
         private static readonly ModelBinderProvider[] _providers = new ModelBinderProvider[]
         {
             new SimpleModelBinderProvider(typeof(byte[]), new ByteArrayExtensibleModelBinder()),
+#if NETFRAMEWORK // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
             new SimpleModelBinderProvider(typeof(Binary), new LinqBinaryExtensibleModelBinder())
+#endif
         };
 
         public override IExtensibleModelBinder GetBinder(ControllerContext controllerContext, ExtensibleModelBindingContext bindingContext)
@@ -72,6 +77,8 @@ namespace Microsoft.Web.Mvc.ModelBinding
         }
 
         // This is essentially a clone of the LinqBinaryModelBinder from core
+        // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
+#if NETFRAMEWORK
         private class LinqBinaryExtensibleModelBinder : ByteArrayExtensibleModelBinder
         {
             protected override object ConvertByteArray(byte[] originalModel)
@@ -79,5 +86,6 @@ namespace Microsoft.Web.Mvc.ModelBinding
                 return new Binary(originalModel);
             }
         }
+#endif
     }
 }
