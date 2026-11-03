@@ -213,7 +213,9 @@ namespace System.Web.Mvc.Html
         {
             return
                 metadata.ShowForDisplay
+#if NETFRAMEWORK // webForCore: System.Data.EntityState (System.Data.Entity.dll) does not exist on .NET
                 && metadata.ModelType != typeof(EntityState)
+#endif
                 && !metadata.IsComplexType
                 && !templateInfo.Visited(metadata);
         }
