@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using WebFormsForCore.Serialization.Formatters.Binary; // webForCore: the fork's BinaryFormatter port
 using Microsoft.TestCommon;
 
 namespace System.Web.Mvc.Test
