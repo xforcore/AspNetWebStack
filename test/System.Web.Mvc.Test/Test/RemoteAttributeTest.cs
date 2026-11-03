@@ -55,7 +55,7 @@ namespace System.Web.Mvc.Test
             // Act & Assert
             Assert.Throws<ArgumentException>(
                 () => new List<ModelClientValidationRule>(attribute.GetClientValidationRules(metadata, context)),
-                "A route named 'RouteName' could not be found in the route collection.\r\nParameter name: name");
+                "A route named 'RouteName' could not be found in the route collection. (Parameter 'name')");
         }
 
         [Fact]
@@ -112,7 +112,7 @@ namespace System.Web.Mvc.Test
             Assert.Equal("*.Length", rule.ValidationParameters["additionalfields"]);
             Assert.Throws<KeyNotFoundException>(
                 () => rule.ValidationParameters["type"],
-                "The given key was not present in the dictionary.");
+                "The given key 'type' was not present in the dictionary."); // webForCore: .NET names the key
         }
 
         [Fact]
