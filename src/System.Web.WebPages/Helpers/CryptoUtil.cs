@@ -43,7 +43,8 @@ namespace System.Web.Helpers
                     }
                     bw.Flush();
 
-                    using (SHA256Cng sha256 = new SHA256Cng())
+                    // webForCore: SHA256Cng is Windows CNG only; SHA-256 is the same hash from any implementation.
+                    using (SHA256 sha256 = SHA256.Create())
                     {
                         byte[] retVal = sha256.ComputeHash(ms.GetBuffer(), 0, checked((int)ms.Length));
                         return retVal;
