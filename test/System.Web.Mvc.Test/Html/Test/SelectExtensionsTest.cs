@@ -99,12 +99,13 @@ namespace System.Web.Mvc.Html.Test
             }
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownList_WithGroups()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""other1"">other1</option>
+            string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""other1"">other1</option>
 <option value=""other2"">other2</option>
 <optgroup label=""Swedish Cars"">
 <option value=""volvo"">Volvo</option>
@@ -120,7 +121,7 @@ namespace System.Web.Mvc.Html.Test
 <option disabled=""disabled"" value=""audi"">Audi</option>
 </optgroup>
 <option value=""other6"">other6</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownList("List", GroupedItems);
@@ -129,18 +130,19 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedDropDownListHtml, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownList_WithGroups_WithDisabled()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""a"">Alice</option>
+            string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""a"">Alice</option>
 <optgroup disabled=""disabled"" label=""DisabledGroup"">
 <option value=""b"">Bob</option>
 <option value=""c"">Charlie</option>
 </optgroup>
 <option disabled=""disabled"" value=""d"">David</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownList("List", GroupedItems_WithDisabled);
@@ -150,12 +152,13 @@ namespace System.Web.Mvc.Html.Test
         }
 
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownList_SelectList_WithGroups()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""ufo"">UFO</option>
+            string expectedDropDownListHtml = @"<select id=""List"" name=""List""><option value=""ufo"">UFO</option>
 <optgroup label=""Swedish Cars"">
 <option value=""volvo"">Volvo</option>
 <option value=""saab"">Saab</option>
@@ -168,7 +171,7 @@ namespace System.Web.Mvc.Html.Test
 <optgroup label="" "">
 <option value=""unknown"">Unknown</option>
 </optgroup>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownList("List", _selectList);
@@ -967,6 +970,7 @@ namespace System.Web.Mvc.Html.Test
 
         // DropDownListFor
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownListFor_WithGroups()
         {
@@ -974,7 +978,7 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooModel> dict = new ViewDataDictionary<FooModel>();
             dict.Add("foo", "volvo");
             HtmlHelper<FooModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">Cars</option>
+            string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">Cars</option>
 <option value=""other1"">other1</option>
 <option value=""other2"">other2</option>
 <optgroup label=""Swedish Cars"">
@@ -991,7 +995,7 @@ namespace System.Web.Mvc.Html.Test
 <option disabled=""disabled"" value=""audi"">Audi</option>
 </optgroup>
 <option value=""other6"">other6</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownListFor(m => m.foo, GroupedItems, optionLabel: "Cars");
@@ -1000,6 +1004,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownListFor_WithGroups_WithDisabled()
         {
@@ -1007,14 +1012,14 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooModel> dict = new ViewDataDictionary<FooModel>();
             dict.Add("foo", "d");
             HtmlHelper<FooModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">Options</option>
+            string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">Options</option>
 <option value=""a"">Alice</option>
 <optgroup disabled=""disabled"" label=""DisabledGroup"">
 <option value=""b"">Bob</option>
 <option value=""c"">Charlie</option>
 </optgroup>
 <option disabled=""disabled"" selected=""selected"" value=""d"">David</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownListFor(m => m.foo, GroupedItems_WithDisabled, optionLabel: "Options");
@@ -1023,6 +1028,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void DropDownListFor_SelectList_WithGroups()
         {
@@ -1030,7 +1036,7 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooModel> dict = new ViewDataDictionary<FooModel>();
             dict.Add("foo", "volvo");
             HtmlHelper<FooModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">options...</option>
+            string expectedListBox = @"<select id=""foo"" name=""foo""><option value="""">options...</option>
 <option value=""ufo"">UFO</option>
 <optgroup label=""Swedish Cars"">
 <option selected=""selected"" value=""volvo"">Volvo</option>
@@ -1044,7 +1050,7 @@ namespace System.Web.Mvc.Html.Test
 <optgroup label="" "">
 <option value=""unknown"">Unknown</option>
 </optgroup>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.DropDownListFor(m => m.foo, _selectList, optionLabel: "options...");
@@ -1600,8 +1606,7 @@ namespace System.Web.Mvc.Html.Test
 
             // Act & Assert
             Assert.ThrowsArgument(() => helper.EnumDropDownListFor(model => model), paramName: "expression",
-                exceptionMessage: "Return type 'System.Int32' is not supported." + Environment.NewLine +
-                "Parameter name: expression");
+                exceptionMessage: "Return type 'System.Int32' is not supported. (Parameter 'expression')");
         }
 
         [Fact]
@@ -1617,8 +1622,7 @@ namespace System.Web.Mvc.Html.Test
             // Act & Assert
             Assert.ThrowsArgument(() => helper.EnumDropDownListFor(model => model), paramName: "expression",
                 exceptionMessage: "Return type 'System.Web.Mvc.Html.Test.SelectExtensionsTest+EnumWithFlags' is not " +
-                "supported. Type must not have a 'Flags' attribute." + Environment.NewLine +
-                "Parameter name: expression");
+                "supported. Type must not have a 'Flags' attribute. (Parameter 'expression')");
         }
 
         // Like EnumDropDownListForWithUnsupportedExpressionTypeThrowsArgument but using EnumModel
@@ -1631,8 +1635,7 @@ namespace System.Web.Mvc.Html.Test
             // Act & Assert
             Assert.ThrowsArgument(() => helper.EnumDropDownListFor(m => m.WithFlags), paramName: "expression",
                 exceptionMessage: "Return type 'System.Web.Mvc.Html.Test.SelectExtensionsTest+EnumWithFlags' is not " +
-                "supported. Type must not have a 'Flags' attribute." + Environment.NewLine +
-                "Parameter name: expression");
+                "supported. Type must not have a 'Flags' attribute. (Parameter 'expression')");
         }
 
         [Fact]
@@ -2271,12 +2274,13 @@ namespace System.Web.Mvc.Html.Test
 
         // ListBox
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBox_WithGroups()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""other1"">other1</option>
+            string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""other1"">other1</option>
 <option value=""other2"">other2</option>
 <optgroup label=""Swedish Cars"">
 <option value=""volvo"">Volvo</option>
@@ -2292,7 +2296,7 @@ namespace System.Web.Mvc.Html.Test
 <option disabled=""disabled"" value=""audi"">Audi</option>
 </optgroup>
 <option value=""other6"">other6</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBox("List", GroupedItems);
@@ -2301,18 +2305,19 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBox_WithGroups_WithDisabled()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""a"">Alice</option>
+            string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""a"">Alice</option>
 <optgroup disabled=""disabled"" label=""DisabledGroup"">
 <option value=""b"">Bob</option>
 <option value=""c"">Charlie</option>
 </optgroup>
 <option disabled=""disabled"" value=""d"">David</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBox("List", GroupedItems_WithDisabled);
@@ -2321,12 +2326,13 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBox_MultiSelectList_WithGroups()
         {
             // Arrange
             HtmlHelper helper = MvcHelper.GetHtmlHelper();
-            const string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""ufo"">UFO</option>
+            string expectedListBox = @"<select id=""List"" multiple=""multiple"" name=""List""><option value=""ufo"">UFO</option>
 <optgroup label=""Swedish Cars"">
 <option selected=""selected"" value=""volvo"">Volvo</option>
 <option value=""saab"">Saab</option>
@@ -2339,7 +2345,7 @@ namespace System.Web.Mvc.Html.Test
 <optgroup label="" "">
 <option value=""unknown"">Unknown</option>
 </optgroup>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBox("List", _multiSelectList);
@@ -2811,6 +2817,7 @@ namespace System.Web.Mvc.Html.Test
 
         // ListBoxFor
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBoxFor_WithGroups()
         {
@@ -2818,7 +2825,7 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooArrayModel> dict = new ViewDataDictionary<FooArrayModel>();
             dict.Add("foo", new[] { "volvo", "audi" });
             HtmlHelper<FooArrayModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option value=""other1"">other1</option>
+            string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option value=""other1"">other1</option>
 <option value=""other2"">other2</option>
 <optgroup label=""Swedish Cars"">
 <option selected=""selected"" value=""volvo"">Volvo</option>
@@ -2834,7 +2841,7 @@ namespace System.Web.Mvc.Html.Test
 <option disabled=""disabled"" selected=""selected"" value=""audi"">Audi</option>
 </optgroup>
 <option value=""other6"">other6</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBoxFor(m => m.foo, GroupedItems);
@@ -2843,6 +2850,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBoxFor_WithGroups_WithDisabled()
         {
@@ -2850,13 +2858,13 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooArrayModel> dict = new ViewDataDictionary<FooArrayModel>();
             dict.Add("foo", new[] { "a", "d" });
             HtmlHelper<FooArrayModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option selected=""selected"" value=""a"">Alice</option>
+            string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option selected=""selected"" value=""a"">Alice</option>
 <optgroup disabled=""disabled"" label=""DisabledGroup"">
 <option value=""b"">Bob</option>
 <option value=""c"">Charlie</option>
 </optgroup>
 <option disabled=""disabled"" selected=""selected"" value=""d"">David</option>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBoxFor(m => m.foo, GroupedItems_WithDisabled);
@@ -2865,6 +2873,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expectedListBox, html.ToHtmlString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         void ListBoxFor_MultiSelectList_WithGroups()
         {
@@ -2872,7 +2881,7 @@ namespace System.Web.Mvc.Html.Test
             ViewDataDictionary<FooArrayModel> dict = new ViewDataDictionary<FooArrayModel>();
             dict.Add("foo", new[] { "mercedes-benz", "audi" });
             HtmlHelper<FooArrayModel> helper = MvcHelper.GetHtmlHelper(dict);
-            const string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option value=""ufo"">UFO</option>
+            string expectedListBox = @"<select id=""foo"" multiple=""multiple"" name=""foo""><option value=""ufo"">UFO</option>
 <optgroup label=""Swedish Cars"">
 <option value=""volvo"">Volvo</option>
 <option value=""saab"">Saab</option>
@@ -2885,7 +2894,7 @@ namespace System.Web.Mvc.Html.Test
 <optgroup label="" "">
 <option value=""unknown"">Unknown</option>
 </optgroup>
-</select>";
+</select>".Replace("\r\n", Environment.NewLine);
 
             // Act
             MvcHtmlString html = helper.ListBoxFor(m => m.foo, _multiSelectList);
