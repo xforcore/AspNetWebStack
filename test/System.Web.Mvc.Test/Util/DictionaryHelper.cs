@@ -169,7 +169,7 @@ namespace System.Web.TestUtil
 
                 Assert.Throws<ArgumentException>(
                     delegate { testDictionary.Add(pairs[1].Key, pairs[1].Value); },
-                    "An item with the same key has already been added."
+                    "An item with the same key has already been added. Key: " + pairs[1].Key // webForCore: .NET names the key
                     );
             }
 
