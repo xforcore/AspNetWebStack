@@ -16,7 +16,7 @@ namespace System.Web.Mvc.Test
             // Act & Assert
             Assert.Throws<ArgumentException>(
                 delegate { new ModelBinderAttribute(badType); },
-                "The type 'System.String' does not implement the IModelBinder interface.\r\nParameter name: binderType");
+                "The type 'System.String' does not implement the IModelBinder interface. (Parameter 'binderType')");
         }
 
         [Fact]
