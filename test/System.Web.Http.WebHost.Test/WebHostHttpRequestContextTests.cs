@@ -14,8 +14,9 @@ namespace System.Web.Http.WebHost
 {
     public class WebHostHttpRequestContextTests
     {
-        private const string Base64Certificate = "MIFRMIFHAgEAMAIGADAJMQcwBQYAEwFhMB4XDTEzMDkxMDE5NTQ0OVoXDTM5MTIzMT" +
-            "IzNTk1OVowCTEHMAUGABMBYTCBBzACBgADgQAwAgYAA4EA";
+        // webForCore: the original certificate (empty OIDs, long-form lengths) is rejected by .NET's DER reader outside
+        // Windows. A minimal valid self-signed certificate (EC P-256, CN=a) instead.
+        private const string Base64Certificate = "MIIBbzCCARWgAwIBAgIULQFNF23+7TPiEStNMnxMQ6Otym0wCgYIKoZIzj0EAwIwDDEKMAgGA1UEAwwBYTAgFw0yNjEwMzAwODQzNDhaGA8yMTI2MTAwNjA4NDM0OFowDDEKMAgGA1UEAwwBYTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABNmg3PRJ4QrPWfFOwO75KQ6urPsFmo4HLACfGFhnkxfYRwL2+tlrneSBeas86bKPToTiQjSzFZXqvd8XLJfbCxOjUzBRMB0GA1UdDgQWBBSwfzS+wbWn4yuSnWhj6jh0JSevSjAfBgNVHSMEGDAWgBSwfzS+wbWn4yuSnWhj6jh0JSevSjAPBgNVHRMBAf8EBTADAQH/MAoGCCqGSM49BAMCA0gAMEUCIQCC8S4//SQ9RslWdM6VMnsdB1bGDYgmRr6BUGGYQ+qf/QIgad91lsbvNKUT0GHP5tZxEjgHI70RbcbLd5EClcSJgqg=";
 
         [Fact]
         public void ContextGet_ReturnsProvidedInstance()
