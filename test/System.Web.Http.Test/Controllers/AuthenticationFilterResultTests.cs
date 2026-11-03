@@ -23,7 +23,7 @@ namespace System.Web.Http.Controllers
                 ApiController controller = CreateController();
                 IAuthenticationFilter[] filters = new IAuthenticationFilter[0];
                 int calls = 0;
-                CancellationToken cancellationToken;
+                CancellationToken cancellationToken = default; // webForCore: .NET reference assemblies expose the struct's private field (CS0165)
                 IHttpActionResult innerResult = CreateActionResult((t) =>
                 {
                     calls++;
@@ -117,7 +117,7 @@ namespace System.Web.Http.Controllers
                 HttpActionContext context = CreateContext();
                 ApiController controller = CreateController();
                 int calls = 0;
-                CancellationToken cancellationToken;
+                CancellationToken cancellationToken = default; // webForCore: .NET reference assemblies expose the struct's private field (CS0165)
                 IHttpActionResult errorResult = CreateActionResult((t) =>
                 {
                     calls++;
@@ -409,7 +409,7 @@ namespace System.Web.Http.Controllers
             Func<CancellationToken, Task<HttpResponseMessage>> executeAsync)
         {
             Mock<IHttpActionResult> mock = new Mock<IHttpActionResult>(MockBehavior.Strict);
-            CancellationToken cancellationToken;
+            CancellationToken cancellationToken = default; // webForCore: .NET reference assemblies expose the struct's private field (CS0165)
             mock.Setup(r => r.ExecuteAsync(It.IsAny<CancellationToken>()))
                 .Callback<CancellationToken>((t) => { cancellationToken = t; })
                 .Returns(() => executeAsync.Invoke(cancellationToken));
