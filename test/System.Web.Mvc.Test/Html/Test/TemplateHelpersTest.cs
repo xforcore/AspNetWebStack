@@ -759,7 +759,7 @@ namespace System.Web.Mvc.Html.Test
                                                         null /* additionalViewData */, TemplateHelperSpy);
 
             // Assert
-            Assert.Equal("Model = (null), ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], RealModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = MyNullableProperty, HtmlFieldName = MyNullableProperty, TemplateName = (null), Mode = ReadOnly, AdditionalViewData = (null)", result);
+            Assert.Equal("Model = (null), ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], RealModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = MyNullableProperty, HtmlFieldName = MyNullableProperty, TemplateName = (null), Mode = ReadOnly, AdditionalViewData = (null)", result);
         }
 
         [Fact]
@@ -773,7 +773,7 @@ namespace System.Web.Mvc.Html.Test
                                                         null /* additionalViewData */, TemplateHelperSpy);
 
             // Assert
-            Assert.Equal("Model = 42, ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], RealModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = MyNullableProperty, HtmlFieldName = MyNullableProperty, TemplateName = (null), Mode = ReadOnly, AdditionalViewData = (null)", result);
+            Assert.Equal("Model = 42, ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], RealModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = MyNullableProperty, HtmlFieldName = MyNullableProperty, TemplateName = (null), Mode = ReadOnly, AdditionalViewData = (null)", result);
         }
 
         [Fact]
@@ -1064,7 +1064,9 @@ namespace System.Web.Mvc.Html.Test
                                                                null /* additionalViewData */, ExecuteTemplateSpy);
 
                 // Assert
-                Assert.Equal("Model = 18/11/2009 04:12:08 p. m., ModelType = System.DateTime, RealModelType = System.DateTime, PropertyName = MyProperty, FormattedModelValue = miércoles, 18 de noviembre de 2009 04:12:08 p. m., HtmlFieldPrefix = FieldPrefix.htmlFieldName, TemplateName = templateName, Mode = ReadOnly", result);
+                // webForCore: ICU's es-MX format ("4:12:08 p.m.") differs from Windows NLS ("04:12:08 p. m."); use the culture's.
+                DateTime value = new DateTime(2009, 11, 18, 16, 12, 8, DateTimeKind.Utc);
+                Assert.Equal("Model = " + value.ToString(Thread.CurrentThread.CurrentCulture) + ", ModelType = System.DateTime, RealModelType = System.DateTime, PropertyName = MyProperty, FormattedModelValue = " + String.Format(Thread.CurrentThread.CurrentCulture, "{0:F}", value) + ", HtmlFieldPrefix = FieldPrefix.htmlFieldName, TemplateName = templateName, Mode = ReadOnly", result);
             }
             finally
             {
