@@ -3,8 +3,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
+#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Linq;
+#endif
+#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Objects.DataClasses;
+#endif
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -263,9 +267,9 @@ namespace System.Web.Mvc.Html.Test
             // Assert
             Assert.Equal(
                 Environment.NewLine
-              + "Model = 1, ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [0], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
-              + "Model = (null), ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [1], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
-              + "Model = 2, ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [2], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)",
+              + "Model = 1, ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [0], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
+              + "Model = (null), ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [1], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
+              + "Model = 2, ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [2], TemplateName = (null), Mode = Edit, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)",
                 result);
         }
 
@@ -373,9 +377,11 @@ namespace System.Web.Mvc.Html.Test
 
             byte[] byteValues = { 1, 2, 3, 4, 5 };
 
+#if NETFRAMEWORK // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
             Assert.Equal(
                 "&quot;AQIDBAU=&quot;<input id=\"FieldPrefix\" name=\"FieldPrefix\" type=\"hidden\" value=\"AQIDBAU=\" />",
                 DefaultEditorTemplates.HiddenInputTemplate(MakeHtmlHelper<Binary>(new Binary(byteValues))));
+#endif
 
             Assert.Equal(
                 "System.Byte[]<input id=\"FieldPrefix\" name=\"FieldPrefix\" type=\"hidden\" value=\"AQIDBAU=\" />",
@@ -514,14 +520,15 @@ namespace System.Web.Mvc.Html.Test
             public object ComplexInnerModel { get; set; }
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplateEditsSimplePropertiesOnObjectByDefault()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = p1, ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine
-              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = p1, ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n"
+              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel { Property1 = "p1", Property2 = null };
@@ -534,14 +541,15 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplate_AddsHtmlAttributes()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\"><input class=\"form-control text-box single-line\" foo=\"bar\" id=\"FieldPrefix_Property1\" name=\"FieldPrefix.Property1\" type=\"text\" value=\"p1\" /> </div>" + Environment.NewLine
-              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\"><input class=\"form-control text-box single-line\" foo=\"bar\" id=\"FieldPrefix_Property2\" name=\"FieldPrefix.Property2\" type=\"text\" value=\"\" /> </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + "\r\n"
+              + "<div class=\"editor-field\"><input class=\"form-control text-box single-line\" foo=\"bar\" id=\"FieldPrefix_Property1\" name=\"FieldPrefix.Property1\" type=\"text\" value=\"p1\" /> </div>" + "\r\n"
+              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + "\r\n"
+              + "<div class=\"editor-field\"><input class=\"form-control text-box single-line\" foo=\"bar\" id=\"FieldPrefix_Property2\" name=\"FieldPrefix.Property2\" type=\"text\" value=\"\" /> </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel { Property1 = "p1", Property2 = null };
@@ -556,14 +564,15 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplateWithModelError()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = p1, ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) <span class=\"field-validation-error\">Error Message</span></div>" + Environment.NewLine
-              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = p1, ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) <span class=\"field-validation-error\">Error Message</span></div>" + "\r\n"
+              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel { Property1 = "p1", Property2 = null };
@@ -577,13 +586,14 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplateWithDisplayNameMetadata()
         {
             string expected =
-                "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine
-              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Custom display name</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n"
+              + "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Custom display name</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel();
@@ -603,12 +613,13 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplateWithShowForEditorMetadata()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property1\">Property1</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = (null), ModelType = System.String, PropertyName = Property1, HtmlFieldName = Property1, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel();
@@ -628,12 +639,13 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplatePreventsRecursionOnModelValue()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = propValue2, ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = propValue2, ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel();
@@ -654,12 +666,13 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: ObjectTemplate writes "\r\n" on every platform, as on .NET Framework.
         [Fact]
         public void ObjectTemplatePreventsRecursionOnModelTypeForNullModelValues()
         {
             string expected =
-                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + Environment.NewLine
-              + "<div class=\"editor-field\">Model = propValue2, ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + Environment.NewLine;
+                "<div class=\"editor-label\"><label for=\"FieldPrefix_Property2\">Property2</label></div>" + "\r\n"
+              + "<div class=\"editor-field\">Model = propValue2, ModelType = System.String, PropertyName = Property2, HtmlFieldName = Property2, TemplateName = (null), Mode = Edit, AdditionalViewData = (null) </div>" + "\r\n";
 
             // Arrange
             ObjectTemplateModel model = new ObjectTemplateModel();
@@ -850,6 +863,8 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: System.Data.Objects.DataClasses.EntityObject (System.Data.Entity.dll) does not exist on .NET.
+#if NETFRAMEWORK
         [Fact]
         public void ObjectTemplateAllPropertiesFromEntityObjectAreHidden()
         {
@@ -862,10 +877,14 @@ namespace System.Web.Mvc.Html.Test
             // Assert
             Assert.Equal(String.Empty, result);
         }
+#endif
 
+        // webForCore: System.Data.Objects.DataClasses.EntityObject (System.Data.Entity.dll) does not exist on .NET.
+#if NETFRAMEWORK
         private class MyEntityObject : EntityObject
         {
         }
+#endif
 
         // StringTemplate
 
