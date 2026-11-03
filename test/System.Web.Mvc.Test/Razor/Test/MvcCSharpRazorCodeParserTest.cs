@@ -149,7 +149,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@model Foo" + Environment.NewLine
+                "@model Foo" + "\r\n"
               + "@model Bar";
             var spans = ParseDocument(document, errors);
 
@@ -187,7 +187,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@model Foo" + Environment.NewLine
+                "@model Foo" + "\r\n"
               + "@inherits Bar";
             var spans = ParseDocument(document, errors);
 
@@ -225,7 +225,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@inherits Bar" + Environment.NewLine
+                "@inherits Bar" + "\r\n"
               + "@model Foo";
             var spans = ParseDocument(document, errors);
 
@@ -238,7 +238,7 @@ namespace System.Web.Mvc.Razor.Test
                     .Accepts(AcceptedCharacters.None),
                 factory.MetaCode("inherits ")
                     .Accepts(AcceptedCharacters.None),
-                factory.Code("Bar" + Environment.NewLine)
+                factory.Code("Bar" + "\r\n")
                     .As(new SetBaseTypeCodeGenerator("Bar")),
                 factory.CodeTransition(SyntaxConstants.TransitionString)
                     .Accepts(AcceptedCharacters.None),
