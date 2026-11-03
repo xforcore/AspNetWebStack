@@ -156,6 +156,7 @@ namespace System.Web.Helpers.Test
             Assert.Equal("b = null", visitor.KeyValuePairs[1]);
         }
 
+        // webForCore: ICU's en-US time format puts U+202F before AM; the culture's own format.
         [Fact]
         public void PrintDateTime()
         {
@@ -169,10 +170,11 @@ namespace System.Web.Helpers.Test
                 visitor.Print(dt);
 
                 // Assert
-                Assert.Equal("11/20/2001 10:30:01 AM", visitor.Values[0]);
+                Assert.Equal(dt.ToString(), visitor.Values[0]);
             }
         }
 
+        // webForCore: ICU's en-US time format puts U+202F before AM; the culture's own format.
         [Fact]
         public void PrintCustomObjectPrintsMembers()
         {
@@ -196,7 +198,7 @@ namespace System.Web.Helpers.Test
                 Assert.Equal(9, visitor.Members.Count);
                 Assert.Contains("double Age = 23.3", visitor.Members);
                 Assert.Contains("string Name = David", visitor.Members);
-                Assert.Contains("DateTime Dob = 11/19/1986 12:00:00 AM", visitor.Members);
+                Assert.Contains("DateTime Dob = " + new DateTime(1986, 11, 19), visitor.Members);
                 Assert.Contains("short Type = 1", visitor.Members);
                 Assert.Contains("float Float = 0", visitor.Members);
                 Assert.Contains("byte Byte = 0", visitor.Members);
