@@ -160,7 +160,8 @@ namespace System.Web.WebPages.Deployment.Test
             // Arrange
             var expectedAssemblies = new[]
             {
-                "Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+                // webForCore: the Microsoft.Web.Infrastructure this runs with (2.0.0.0, as on nuget.org; the Web Stack built against 1.0.0.0).
+                typeof(Microsoft.Web.Infrastructure.InfrastructureHelper).Assembly.GetName().ToString(),
                 "System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
                 "System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
                 "System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
@@ -185,7 +186,7 @@ namespace System.Web.WebPages.Deployment.Test
             // Arrange
             var expectedAssemblies = new[]
             {
-                AssemblyNameFor("Microsoft.Web.Infrastructure", "1.0.0.0"),
+                typeof(Microsoft.Web.Infrastructure.InfrastructureHelper).Assembly.GetName().ToString(), // webForCore: as above
                 AssemblyNameFor("System.Web.Razor"),
                 AssemblyNameFor("System.Web.Helpers"),
                 AssemblyNameFor("System.Web.WebPages"),
