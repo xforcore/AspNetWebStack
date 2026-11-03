@@ -547,28 +547,23 @@ namespace System.Web.Mvc.Test
                 );
             Assert.Throws<ArgumentException>(
                 () => htmlHelper.HttpMethodOverride((HttpVerbs)10000),
-                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch." + Environment.NewLine
-              + "Parameter name: httpVerb"
+                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch. (Parameter 'httpVerb')"
                 );
             Assert.Throws<ArgumentException>(
                 () => htmlHelper.HttpMethodOverride(HttpVerbs.Get),
-                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch." + Environment.NewLine
-              + "Parameter name: httpVerb"
+                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch. (Parameter 'httpVerb')"
                 );
             Assert.Throws<ArgumentException>(
                 () => htmlHelper.HttpMethodOverride(HttpVerbs.Post),
-                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch." + Environment.NewLine
-              + "Parameter name: httpVerb"
+                "The specified HttpVerbs value is not supported. The supported values are Delete, Head, Put, Options, and Patch. (Parameter 'httpVerb')"
                 );
             Assert.Throws<ArgumentException>(
                 () => htmlHelper.HttpMethodOverride("gEt"),
-                "The GET and POST HTTP methods are not supported." + Environment.NewLine
-              + "Parameter name: httpMethod"
+                "The GET and POST HTTP methods are not supported. (Parameter 'httpMethod')"
                 );
             Assert.Throws<ArgumentException>(
                 () => htmlHelper.HttpMethodOverride("pOsT"),
-                "The GET and POST HTTP methods are not supported." + Environment.NewLine
-              + "Parameter name: httpMethod"
+                "The GET and POST HTTP methods are not supported. (Parameter 'httpMethod')"
                 );
         }
 
