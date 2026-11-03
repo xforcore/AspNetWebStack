@@ -3,7 +3,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Objects.DataClasses;
+#endif
 using System.Globalization;
 using System.IO;
 using System.Web.UI.WebControls;
@@ -211,9 +213,9 @@ namespace System.Web.Mvc.Html.Test
             // Assert
             Assert.Equal(
                 Environment.NewLine
-              + "Model = 1, ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [0], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
-              + "Model = (null), ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [1], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
-              + "Model = 2, ModelType = System.Nullable`1[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], PropertyName = (null), HtmlFieldName = [2], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)",
+              + "Model = 1, ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [0], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
+              + "Model = (null), ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [1], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)" + Environment.NewLine
+              + "Model = 2, ModelType = System.Nullable`1[[System.Int32, " + typeof(int).Assembly.FullName + "]], PropertyName = (null), HtmlFieldName = [2], TemplateName = (null), Mode = ReadOnly, TemplateInfo.HtmlFieldPrefix = , AdditionalViewData = (null)",
                 result);
         }
 
@@ -503,6 +505,8 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(expected, result);
         }
 
+        // webForCore: System.Data.Objects.DataClasses.EntityObject (System.Data.Entity.dll) does not exist on .NET.
+#if NETFRAMEWORK
         [Fact]
         public void ObjectTemplateAllPropertiesFromEntityObjectAreHidden()
         {
@@ -515,10 +519,14 @@ namespace System.Web.Mvc.Html.Test
             // Assert
             Assert.Equal(String.Empty, result);
         }
+#endif
 
+        // webForCore: System.Data.Objects.DataClasses.EntityObject (System.Data.Entity.dll) does not exist on .NET.
+#if NETFRAMEWORK
         private class MyEntityObject : EntityObject
         {
         }
+#endif
 
         // StringTemplate
 
