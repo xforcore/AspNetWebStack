@@ -46,10 +46,11 @@ namespace System.Web.Helpers.Claims.Test
             Assert.Same(claimsIdentity, retVal);
         }
 
-        [Theory]
+        [Theory(Skip = "webForCore: WindowsIdentity is Windows only (handoff section 10).")]
         [GrandfatheredTypesData]
         public void TryConvert_SkipsGrandfatheredTypes(IIdentity identity)
         {
+#if NETFRAMEWORK
             // Arrange
             ClaimsIdentityConverter converter = new ClaimsIdentityConverter(new Func<IIdentity, ClaimsIdentity>[]
             {
@@ -61,6 +62,7 @@ namespace System.Web.Helpers.Claims.Test
 
             // Assert
             Assert.Null(retVal);
+#endif
         }
 
         private sealed class GrandfatheredTypesDataAttribute : DataAttribute
