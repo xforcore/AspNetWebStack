@@ -213,7 +213,8 @@ namespace System.Web.Http.Owin
                     // Compute Content-Length before calling UseBufferedOutputStream because the default implementation
                     // accesses that header and we want to catch any exceptions calling TryComputeLength here.
 
-                    if (response.Content == null
+                    // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+                    if (ResponseContent.Get(response) == null
                         || await ComputeContentLengthAsync(request, response, owinResponse, cancellationToken))
                     {
                         bool bufferOutput = _bufferPolicySelector.UseBufferedOutputStream(response);
@@ -222,7 +223,7 @@ namespace System.Web.Http.Owin
                         {
                             owinResponse.DisableBuffering();
                         }
-                        else if (response.Content != null)
+                        else if (ResponseContent.Get(response) != null)
                         {
                             response = await BufferResponseContentAsync(request, response, cancellationToken);
                         }
@@ -438,7 +439,8 @@ namespace System.Web.Http.Owin
             Contract.Assert(response != null);
             HttpResponseHeaders responseHeaders = response.Headers;
             Contract.Assert(responseHeaders != null);
-            HttpContent content = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent content = ResponseContent.Get(response);
             bool isTransferEncodingChunked = responseHeaders.TransferEncodingChunked == true;
             HttpHeaderValueCollection<TransferCodingHeaderValue> transferEncoding = responseHeaders.TransferEncoding;
 
@@ -539,7 +541,8 @@ namespace System.Web.Http.Owin
                 responseHeaders[header.Key] = header.Value.AsArray();
             }
 
-            HttpContent responseContent = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent responseContent = ResponseContent.Get(response);
             if (responseContent == null)
             {
                 SetHeadersForEmptyResponse(responseHeaders);
