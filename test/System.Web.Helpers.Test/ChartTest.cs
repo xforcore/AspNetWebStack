@@ -629,7 +629,7 @@ namespace System.Web.Helpers.Test
         private HttpContextBase GetContext()
         {
             // Strip drive letter for VirtualPathUtility.Combine
-            var testPath = Directory.GetCurrentDirectory().Substring(2) + "/Out";
+            var testPath = System.Text.RegularExpressions.Regex.Replace(Directory.GetCurrentDirectory(), "^[A-Za-z]:", "") /* webForCore: no drive letter on Linux */ + "/Out";
             Mock<HttpRequestBase> request = new Mock<HttpRequestBase>();
             request.Setup(r => r.AppRelativeCurrentExecutionFilePath).Returns(testPath);
             request.Setup(r => r.MapPath(It.IsAny<string>())).Returns((string path) => path);
