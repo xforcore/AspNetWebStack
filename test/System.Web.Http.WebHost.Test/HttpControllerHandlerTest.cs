@@ -800,7 +800,8 @@ namespace System.Web.Http.WebHost
             Assert.NotNull(innerError);
             Assert.Equal(typeof(NotSupportedException).FullName, innerError["ExceptionType"].ToString());
             Assert.Equal("Expected error", innerError["ExceptionMessage"]);
-            Assert.Contains(MethodInfo.GetCurrentMethod().Name, innerError["StackTrace"].ToString());
+            // webForCore: .NET's async stack traces show the async method, not its state machine's MoveNext.
+            Assert.Contains(nameof(CopyResponseAsync_IfHandlerIsDefault_Returns_Error_Response_When_Formatter_Write_Task_Faults), innerError["StackTrace"].ToString());
         }
 
         [Fact]
