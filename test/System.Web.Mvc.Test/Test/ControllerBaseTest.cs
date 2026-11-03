@@ -69,7 +69,7 @@ namespace System.Web.Mvc.Test
 
             //Act & Assert
             Assert.Throws<ArgumentException>(
-                delegate { controller.Execute(new Mock<RequestContext>().Object); }, "Cannot execute Controller with a null HttpContext.\r\nParameter name: requestContext");
+                delegate { controller.Execute(new Mock<RequestContext>().Object); }, "Cannot execute Controller with a null HttpContext. (Parameter 'requestContext')");
         }
 
         [Fact]
