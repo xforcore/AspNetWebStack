@@ -325,8 +325,7 @@ namespace System.Web.Mvc.Html.Test
                 paramName: "value",
                 exceptionMessage: "Invalid value parameter type " +
                 "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDisplay'. Must match type parameter " +
-                "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDuplicates'." + Environment.NewLine +
-                "Parameter name: value");
+                "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDuplicates'. (Parameter 'value')");
         }
 
         [Fact]
@@ -340,8 +339,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.ThrowsArgument(() => EnumHelper.GetSelectList(metadata, EnumWithDisplay.Two), paramName: "value",
                 exceptionMessage: "Invalid value parameter type " +
                 "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDisplay'. Must match type parameter " +
-                "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDuplicates'." + Environment.NewLine +
-                "Parameter name: value");
+                "'System.Web.Mvc.Html.Test.EnumHelperTest+EnumWithDuplicates'. (Parameter 'value')");
         }
 
         // helpers
