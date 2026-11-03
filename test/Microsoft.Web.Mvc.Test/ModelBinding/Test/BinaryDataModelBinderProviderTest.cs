@@ -1,7 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Linq;
+#endif
 using System.Web.Mvc;
 using Microsoft.TestCommon;
 using Microsoft.Web.UnitTestUtil;
@@ -86,6 +88,8 @@ namespace Microsoft.Web.Mvc.ModelBinding.Test
             Assert.Equal(_base64Bytes, (byte[])bindingContext.Model);
         }
 
+        // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
+#if NETFRAMEWORK
         [Fact]
         public void BindModel_GoodValue_LinqBinary_Succeeds()
         {
@@ -111,6 +115,7 @@ namespace Microsoft.Web.Mvc.ModelBinding.Test
             Binary binaryModel = Assert.IsType<Binary>(bindingContext.Model);
             Assert.Equal(_base64Bytes, binaryModel.ToArray());
         }
+#endif
 
         [Fact]
         public void BindModel_NoValue_Fails()
