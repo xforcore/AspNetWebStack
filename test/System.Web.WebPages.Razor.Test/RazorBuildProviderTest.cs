@@ -42,6 +42,7 @@ namespace System.Web.WebPages.Razor.Test
             }
         }
 
+        // webForCore: the fork compiles with its own Roslyn CodeDom provider (WebFormsForCore.Compilers), configured in its machine.config.
         [Fact]
         public void CodeCompilerTypeReturnsTypeFromCodeLanguage()
         {
@@ -54,7 +55,7 @@ namespace System.Web.WebPages.Razor.Test
             CompilerType type = provider.CodeCompilerType;
 
             // Assert
-            Assert.Equal(typeof(CSharpCodeProvider), type.CodeDomProviderType);
+            Assert.Equal("WebFormsForCore.CodeDom.Compiler.CSharpCodeProvider", type.CodeDomProviderType.FullName);
         }
 
         [Fact]
