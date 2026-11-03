@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
+#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Linq;
+#endif
 using System.Web.WebPages.Html;
 using Microsoft.TestCommon;
 using Moq;
@@ -14,6 +16,8 @@ namespace System.Web.WebPages.Test
         private static readonly IDictionary<string, object> _attributesDictionary = new Dictionary<string, object> { { "baz", "BazValue" } };
         private static readonly object _attributesObject = new { baz = "BazValue" };
 
+        // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
+#if NETFRAMEWORK
         [Fact]
         public void HiddenWithBinaryArrayValueRendersBase64EncodedValue()
         {
@@ -26,6 +30,7 @@ namespace System.Web.WebPages.Test
             // Assert
             Assert.Equal("<input id=\"ProductName\" name=\"ProductName\" type=\"hidden\" value=\"Fys1\" />", result.ToHtmlString());
         }
+#endif
 
         [Fact]
         public void HiddenWithEmptyNameThrows()
