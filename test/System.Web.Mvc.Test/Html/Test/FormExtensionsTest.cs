@@ -58,6 +58,7 @@ namespace System.Web.Mvc.Html.Test
             Assert.Equal(@"<form action=""/some/path"" method=""post""></form>", writer.ToString());
         }
 
+        // webForCore: the helper writes the platform newline (AppendLine).
         [Fact]
         public void BeginFormWithClientValidationEnabled()
         {
@@ -83,7 +84,7 @@ namespace System.Web.Mvc.Html.Test
 if (!window.mvcClientValidationMetadata) { window.mvcClientValidationMetadata = []; }
 window.mvcClientValidationMetadata.push({""Fields"":[],""FormId"":""form_id"",""ReplaceValidationSummary"":false});
 //]]>
-</script>", writer.ToString());
+</script>".Replace("\r\n", Environment.NewLine), writer.ToString());
         }
 
         [Fact]
