@@ -25,7 +25,8 @@ namespace System.Web.Http.Owin
                 throw Error.ArgumentNull("response");
             }
 
-            HttpContent content = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent content = ResponseContent.Get(response);
             if (content == null)
             {
                 return false;
