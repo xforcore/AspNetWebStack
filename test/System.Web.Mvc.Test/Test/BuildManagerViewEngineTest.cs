@@ -199,8 +199,9 @@ namespace System.Web.Mvc.Test
             // Depend on the fact that Activator.CreateInstance cannot create an object without a parameterless ctor
             MissingMethodException ex = Assert.Throws<MissingMethodException>(
                 () => engine.ViewPageActivator.Create(controllerContext, typeof(NoParameterlessCtor)),
-                "No parameterless constructor defined for this object. Object type 'System.Web.Mvc.Test.BuildManagerViewEngineTest+NoParameterlessCtor'.");
-            Assert.Contains("System.Activator.CreateInstance(", ex.InnerException.StackTrace);
+                "Cannot dynamically create an instance of type 'System.Web.Mvc.Test.BuildManagerViewEngineTest+NoParameterlessCtor'. Reason: No parameterless constructor defined.");
+            // webForCore: .NET's message names the type, so MVC keeps the original exception (no InnerException).
+            Assert.Contains("System.RuntimeType.ActivatorCache", (ex.InnerException ?? ex).StackTrace); // webForCore: .NET's frames
         }
 
         [Fact]
