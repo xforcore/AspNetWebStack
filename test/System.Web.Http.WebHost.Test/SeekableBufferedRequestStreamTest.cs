@@ -229,8 +229,7 @@ namespace System.Web.Http.WebHost
 
             var message = 
                 "The value of argument 'origin' (" + (int)origin + ") is invalid for Enum type " +
-                "'SeekOrigin'." + Environment.NewLine +
-                "Parameter name: origin";
+                "'SeekOrigin'. (Parameter 'origin')"; // webForCore: .NET formats ArgumentException messages as "<message> (Parameter '<name>')"
 
             // Act & Assert
             Assert.Throws<InvalidEnumArgumentException>(() => stream.Seek(0L, origin), message);
