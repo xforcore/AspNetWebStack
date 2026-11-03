@@ -36,7 +36,7 @@ namespace System.Web.Helpers.Test
         public void ConstructorThrowsWhenFilePathIsInvalid()
         {
             Assert.Throws<DirectoryNotFoundException>(() =>
-                                                               new WebImage(GetContext(), s => { throw new DirectoryNotFoundException(); }, @"x:\this\does\not\exist.jpg"));
+                                                               new WebImage(GetContext(), s => { throw new DirectoryNotFoundException(); }, "/x/this/does/not/exist.jpg"));
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace System.Web.Helpers.Test
         public void FilePathReturnsCorrectPath()
         {
             // Arrange
-            string imageName = @"x:\My-test-image.png";
+            string imageName = "/x/My-test-image.png";
 
             // Act
             WebImage image = new WebImage(GetContext(), s => _PngImageBytes, imageName);
@@ -64,8 +64,8 @@ namespace System.Web.Helpers.Test
         public void FilePathCanBeSet()
         {
             // Arrange
-            string originalPath = @"x:\somePath.png";
-            string newPath = @"x:\someOtherPath.jpg";
+            string originalPath = "/x/somePath.png";
+            string newPath = "/x/someOtherPath.jpg";
 
             // Act
             WebImage image = new WebImage(GetContext(), s => _PngImageBytes, originalPath);
@@ -362,7 +362,7 @@ namespace System.Web.Helpers.Test
 
             image.Resize(100, 50, preserveAspectRatio: true, preventEnlarge: true);
 
-            image.Save(GetContext(), saveAction, @"x:\ResizePreservesResolution.jpg", "jpeg", forceWellKnownExtension: true);
+            image.Save(GetContext(), saveAction, "/x/ResizePreservesResolution.jpg", "jpeg", forceWellKnownExtension: true);
             using (Image original = Image.FromStream(new MemoryStream(_PngImageBytes)))
             {
                 using (Image modified = Image.FromStream(output))
@@ -386,7 +386,7 @@ namespace System.Web.Helpers.Test
 
             // Assert
             Assert.Equal("png", image.ImageFormat);
-            image.Save(GetContext(), saveAction, @"x:\1.png", null, false);
+            image.Save(GetContext(), saveAction, "/x/1.png", null, false);
 
             using (Image modified = Image.FromStream(output))
             {
@@ -401,19 +401,19 @@ namespace System.Web.Helpers.Test
             var context = GetContext();
 
             // Act
-            WebImage image = new WebImage(context, _ => _JpgImageBytes, @"c:\images\foo.jpg");
+            WebImage image = new WebImage(context, _ => _JpgImageBytes, "/c/images/foo.jpg");
 
-            image.Save(context, (_, __) => { }, @"x:\1.exe", "jpg", forceWellKnownExtension: true);
+            image.Save(context, (_, __) => { }, "/x/1.exe", "jpg", forceWellKnownExtension: true);
 
             // Assert
-            Assert.Equal(@"x:\1.exe.jpeg", image.FileName);
+            Assert.Equal("/x/1.exe.jpeg", image.FileName);
         }
 
         [Fact]
         public void SaveUpdatesFileNameOfWebImageWhenFormatChanges()
         {
             // Arrange
-            string imagePath = @"x:\images\foo.jpg";
+            string imagePath = "/x/images/foo.jpg";
             var context = GetContext();
 
             // Act
@@ -422,14 +422,14 @@ namespace System.Web.Helpers.Test
             image.Save(context, (_, __) => { }, imagePath, "png", forceWellKnownExtension: true);
 
             // Assert
-            Assert.Equal(@"x:\images\foo.jpg.png", image.FileName);
+            Assert.Equal("/x/images/foo.jpg.png", image.FileName);
         }
 
         [Fact]
         public void SaveKeepsNameIfFormatIsUnchanged()
         {
             // Arrange
-            string imagePath = @"x:\images\foo.jpg";
+            string imagePath = "/x/images/foo.jpg";
             var context = GetContext();
 
             // Act
@@ -438,7 +438,7 @@ namespace System.Web.Helpers.Test
             image.Save(context, (_, __) => { }, imagePath, "jpg", forceWellKnownExtension: true);
 
             // Assert
-            Assert.Equal(@"x:\images\foo.jpg", image.FileName);
+            Assert.Equal("/x/images/foo.jpg", image.FileName);
         }
 
         [Fact]
@@ -876,7 +876,7 @@ namespace System.Web.Helpers.Test
             WebImage image = new WebImage(_BmpImageBytes);
 
             Assert.Throws<DirectoryNotFoundException>(
-                () => image.AddImageWatermark(context, s => { throw new DirectoryNotFoundException(); }, @"x:\path\does\not\exist", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5));
+                () => image.AddImageWatermark(context, s => { throw new DirectoryNotFoundException(); }, "/x/path/does/not/exist", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5));
         }
 
         [Fact]
@@ -885,7 +885,7 @@ namespace System.Web.Helpers.Test
             var context = GetContext();
             WebImage image = new WebImage(_BmpImageBytes);
             Assert.Throws<FileNotFoundException>(
-                () => image.AddImageWatermark(context, s => { throw new FileNotFoundException(); }, @"x:\there-is-no-file.jpg", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5));
+                () => image.AddImageWatermark(context, s => { throw new FileNotFoundException(); }, "/x/there-is-no-file.jpg", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5));
         }
 
         [Fact]
@@ -921,7 +921,7 @@ namespace System.Web.Helpers.Test
 
             // Act
             var watermarkedWithImageArgument = image.AddImageWatermark(watermark).GetBytes();
-            var watermarkedWithFilePathArgument = image.AddImageWatermark(context, (name) => _JpgImageBytes, @"x:\jpegimage.jpg", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5).GetBytes();
+            var watermarkedWithFilePathArgument = image.AddImageWatermark(context, (name) => _JpgImageBytes, "/x/jpegimage.jpg", width: 0, height: 0, horizontalAlign: "Right", verticalAlign: "Bottom", opacity: 100, padding: 5).GetBytes();
 
             Assert.Equal(watermarkedWithImageArgument, watermarkedWithFilePathArgument);
         }
@@ -932,7 +932,7 @@ namespace System.Web.Helpers.Test
             Action<string, byte[]> saveAction = (path, content) => { };
 
             WebImage image = new WebImage(_BmpImageBytes);
-            string newFileName = @"x:\newImage.bmp";
+            string newFileName = "/x/newImage.bmp";
 
             image.Save(GetContext(), saveAction, newFileName, imageFormat: null, forceWellKnownExtension: true);
 
@@ -971,7 +971,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"C:\some-dir\foo.jpg";
+            var specifiedOutputFile = "/C/some-dir/foo.jpg";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -988,7 +988,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"x:\some-dir\foo.jpg";
+            var specifiedOutputFile = "/x/some-dir/foo.jpg";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -1005,7 +1005,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"x:\some-dir\foo.exe";
+            var specifiedOutputFile = "/x/some-dir/foo.exe";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -1023,7 +1023,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"x:\some-dir\foo";
+            var specifiedOutputFile = "/x/some-dir/foo";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -1040,7 +1040,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"x:\some-dir\foo.jpg";
+            var specifiedOutputFile = "/x/some-dir/foo.jpg";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -1057,7 +1057,7 @@ namespace System.Web.Helpers.Test
         {
             // Arrange
             // Use rooted path so we by pass using HttpContext
-            var specifiedOutputFile = @"x:\some-dir\foo.exe";
+            var specifiedOutputFile = "/x/some-dir/foo.exe";
             string actualOutputFile = null;
             Action<string, byte[]> saveAction = (fileName, content) => { actualOutputFile = fileName; };
 
@@ -1080,7 +1080,7 @@ namespace System.Web.Helpers.Test
         public void SaveUsesInitialFormatWhenNoFormatIsSpecified()
         {
             // Arrange
-            string savePath = @"x:\some-dir\image.png";
+            string savePath = "/x/some-dir/image.png";
             MemoryStream stream = null;
             Action<string, byte[]> saveAction = (path, content) => { stream = new MemoryStream(content); };
             var image = new WebImage(_PngImageBytes);
