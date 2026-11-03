@@ -22,7 +22,11 @@ namespace Microsoft.Web.Mvc.Resources
 
         public object Deserialize(ControllerContext controllerContext, ModelBindingContext bindingContext, ContentType requestFormat)
         {
-            DataContractSerializer xml = new DataContractSerializer(bindingContext.ModelType, null, Int32.MaxValue, true, true, null);
+            // webForCore: .NET has the same settings as DataContractSerializerSettings (no data contract surrogate here: null).
+            DataContractSerializer xml = new DataContractSerializer(bindingContext.ModelType, new DataContractSerializerSettings
+            {
+                KnownTypes = null, MaxItemsInObjectGraph = Int32.MaxValue, IgnoreExtensionDataObject = true, PreserveObjectReferences = true,
+            });
             return xml.ReadObject(controllerContext.HttpContext.Request.InputStream);
         }
 
