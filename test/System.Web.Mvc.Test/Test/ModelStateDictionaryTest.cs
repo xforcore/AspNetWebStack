@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using WebFormsForCore.Serialization.Formatters.Binary; // webForCore: the fork's BinaryFormatter port
 using System.Web.TestUtil;
 using Microsoft.TestCommon;
 
