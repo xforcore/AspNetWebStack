@@ -180,7 +180,8 @@ namespace System.Web.Http.WebHost
                 {
                     Assert.NotNull(response);
                     Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-                    Assert.Null(response.Content);
+                    // webForCore: HttpResponseMessage.Content is never null on .NET (EmptyContent); see ResponseContent.cs.
+                    Assert.Null(ResponseContent.Get(response));
                     Assert.Same(expectedRequest, response.RequestMessage);
                 }
             }
