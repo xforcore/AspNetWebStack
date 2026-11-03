@@ -18,20 +18,20 @@ namespace System.Web.WebPages.Deployment.Test
 
         private static readonly IDictionary<string, string> _deploymentPaths = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
-            { @"ConfigTestSites.CshtmlFileNoVersion.Default.cshtml", @"ConfigTestSites\CshtmlFileNoVersion\Default.cshtml" },
-            { @"ConfigTestSites.NoCshtmlWithEnabledSetting.Default.htm", @"ConfigTestSites\NoCshtmlWithEnabledSetting\Default.htm" },
-            { @"ConfigTestSites.NoCshtmlNoConfigSetting.web.config", @"ConfigTestSites\NoCshtmlNoConfigSetting\web.config" },
-            { @"ConfigTestSites.NoCshtmlWithEnabledSetting.web.config", @"ConfigTestSites\NoCshtmlWithEnabledSetting\web.config" },
-            { @"ConfigTestSites.NoCshtmlWithEnabledSettingFalse.Default.htm", @"ConfigTestSites\NoCshtmlWithEnabledSettingFalse\Default.htm" },
-            { @"ConfigTestAssemblies.V2_Unsigned.System.Web.WebPages.Deployment.dll", @"ConfigTestAssemblies\V2_Unsigned\System.Web.WebPages.Deployment.dll" },
-            { @"ConfigTestAssemblies.V2_Signed.System.Web.WebPages.Deployment.dll", @"ConfigTestAssemblies\V2_Signed\System.Web.WebPages.Deployment.dll" },
-            { @"ConfigTestSites.NoCshtmlWithEnabledSettingFalse.web.config", @"ConfigTestSites\NoCshtmlWithEnabledSettingFalse\web.config" },
-            { @"ConfigTestSites.CshtmlFileConfigV1.Default.cshtml", @"ConfigTestSites\CshtmlFileConfigV1\Default.cshtml" },
-            { @"ConfigTestSites.NoCshtml.Default.htm", @"ConfigTestSites\NoCshtml\Default.htm" },
-            { @"ConfigTestSites.NoCshtmlNoConfigSetting.Default.htm", @"ConfigTestSites\NoCshtmlNoConfigSetting\Default.htm" },
-            { @"ConfigTestSites.CshtmlFileConfigV1.web.config", @"ConfigTestSites\CshtmlFileConfigV1\web.config" },
-            { @"ConfigTestSites.NoCshtmlConfigV1.Default.htm", @"ConfigTestSites\NoCshtmlConfigV1\Default.htm" },
-            { @"ConfigTestSites.NoCshtmlConfigV1.web.config", @"ConfigTestSites\NoCshtmlConfigV1\web.config" },
+            { @"ConfigTestSites.CshtmlFileNoVersion.Default.cshtml", Path.Combine(@"ConfigTestSites", @"CshtmlFileNoVersion", @"Default.cshtml") },
+            { @"ConfigTestSites.NoCshtmlWithEnabledSetting.Default.htm", Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSetting", @"Default.htm") },
+            { @"ConfigTestSites.NoCshtmlNoConfigSetting.web.config", Path.Combine(@"ConfigTestSites", @"NoCshtmlNoConfigSetting", @"web.config") },
+            { @"ConfigTestSites.NoCshtmlWithEnabledSetting.web.config", Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSetting", @"web.config") },
+            { @"ConfigTestSites.NoCshtmlWithEnabledSettingFalse.Default.htm", Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSettingFalse", @"Default.htm") },
+            { @"ConfigTestAssemblies.V2_Unsigned.System.Web.WebPages.Deployment.dll", Path.Combine(@"ConfigTestAssemblies", @"V2_Unsigned", @"System.Web.WebPages.Deployment.dll") },
+            { @"ConfigTestAssemblies.V2_Signed.System.Web.WebPages.Deployment.dll", Path.Combine(@"ConfigTestAssemblies", @"V2_Signed", @"System.Web.WebPages.Deployment.dll") },
+            { @"ConfigTestSites.NoCshtmlWithEnabledSettingFalse.web.config", Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSettingFalse", @"web.config") },
+            { @"ConfigTestSites.CshtmlFileConfigV1.Default.cshtml", Path.Combine(@"ConfigTestSites", @"CshtmlFileConfigV1", @"Default.cshtml") },
+            { @"ConfigTestSites.NoCshtml.Default.htm", Path.Combine(@"ConfigTestSites", @"NoCshtml", @"Default.htm") },
+            { @"ConfigTestSites.NoCshtmlNoConfigSetting.Default.htm", Path.Combine(@"ConfigTestSites", @"NoCshtmlNoConfigSetting", @"Default.htm") },
+            { @"ConfigTestSites.CshtmlFileConfigV1.web.config", Path.Combine(@"ConfigTestSites", @"CshtmlFileConfigV1", @"web.config") },
+            { @"ConfigTestSites.NoCshtmlConfigV1.Default.htm", Path.Combine(@"ConfigTestSites", @"NoCshtmlConfigV1", @"Default.htm") },
+            { @"ConfigTestSites.NoCshtmlConfigV1.web.config", Path.Combine(@"ConfigTestSites", @"NoCshtmlConfigV1", @"web.config") },
         };
 
         private readonly string _tempPath = GetTempPath();
@@ -59,49 +59,49 @@ namespace System.Web.WebPages.Deployment.Test
         [Fact]
         public void IsEnabledReturnsFalseIfNoCshtmlOrConfigFile()
         {
-            Assert.False(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtml")));
+            Assert.False(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtml"))));
         }
 
         [Fact]
         public void IsEnabledReturnsFalseIfNoCshtmlAndNoConfigSetting()
         {
-            Assert.False(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlNoConfigSetting")));
+            Assert.False(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlNoConfigSetting"))));
         }
 
         [Fact]
         public void IsEnabledReturnsTrueIfNoCshtmlAndEnabledConfigSetting()
         {
-            Assert.True(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlWithEnabledSetting")));
+            Assert.True(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSetting"))));
         }
 
         [Fact]
         public void IsEnabledReturnsTrueIfCshtmlFilePresent()
         {
-            Assert.True(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, @"ConfigTestSites\CshtmlFileNoVersion")));
+            Assert.True(WebPagesDeployment.IsEnabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"CshtmlFileNoVersion"))));
         }
 
         [Fact]
         public void IsExplicitlyDisabledReturnsTrueIfNoCshtmlAndEnabledConfigSettingSetToFalse()
         {
-            Assert.True(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlWithEnabledSettingFalse")));
+            Assert.True(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSettingFalse"))));
         }
 
         [Fact]
         public void IsExplicitlyDisabledReturnsFalseIfNoCshtmlAndEnabledConfigSettingSetToTrue()
         {
-            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlWithEnabledSetting")));
+            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlWithEnabledSetting"))));
         }
 
         [Fact]
         public void IsExplicitlyDisabledReturnsFalseIfNoCshtmlAndNoConfigSetting()
         {
-            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlNoConfigSetting")));
+            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlNoConfigSetting"))));
         }
 
         [Fact]
         public void IsExplicitlyDisabledReturnsFalseIfNoCshtmlOrConfigFile()
         {
-            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, @"ConfigTestSites\NoCshtml")));
+            Assert.False(WebPagesDeployment.IsExplicitlyDisabled(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtml"))));
         }
 
         [Fact]
@@ -134,19 +134,20 @@ namespace System.Web.WebPages.Deployment.Test
             Assert.Equal(new Version(version), actualVersion);
         }
 
-        [Fact]
+        [Fact(Skip = "webForCore: side-by-side Web Pages versions (another System.Web.WebPages.Deployment loaded next to this one, as from the GAC): .NET has no GAC and an AssemblyLoadContext holds one version of a name.")]
         public void GetVersionReturnsLowerVersionIfSpecifiedInConfig()
         {
+#if NETFRAMEWORK
             AppDomainUtils.RunInSeparateAppDomain(() =>
             {
                 // Arrange - Load v2 Config
-                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, @"ConfigTestAssemblies\V2_Signed\System.Web.WebPages.Deployment.dll"));
+                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, Path.Combine(@"ConfigTestAssemblies", @"V2_Signed", @"System.Web.WebPages.Deployment.dll")));
                 Assert.Equal(new Version(2, 0, 0, 0), asm.GetName().Version);
                 Assert.Equal("System.Web.WebPages.Deployment", asm.GetName().Name);
 
-                using (WebUtils.CreateHttpRuntime(@"~\foo", "."))
+                using (WebUtils.CreateHttpRuntime(Path.Combine(@"~", @"foo"), "."))
                 {
-                    string path = Path.Combine(_tempPath, @"ConfigTestSites\CshtmlFileConfigV1");
+                    string path = Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"CshtmlFileConfigV1"));
 
                     // Act
                     Version ver = WebPagesDeployment.GetVersionWithoutEnabledCheck(path);
@@ -157,21 +158,23 @@ namespace System.Web.WebPages.Deployment.Test
                     Assert.Equal(new Version(1, 0, 0, 0), explicitVersion);
                 }
             });
+#endif
         }
 
-        [Fact]
+        [Fact(Skip = "webForCore: side-by-side Web Pages versions (another System.Web.WebPages.Deployment loaded next to this one, as from the GAC): .NET has no GAC and an AssemblyLoadContext holds one version of a name.")]
         public void GetVersionReturnsLowerVersionIfSpecifiedInConfigAndNotExplicitlyDisabled()
         {
+#if NETFRAMEWORK
             AppDomainUtils.RunInSeparateAppDomain(() =>
             {
                 // Arrange - Load v2 Config
-                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, @"ConfigTestAssemblies\V2_Signed\System.Web.WebPages.Deployment.dll"));
+                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, Path.Combine(@"ConfigTestAssemblies", @"V2_Signed", @"System.Web.WebPages.Deployment.dll")));
                 Assert.Equal(new Version(2, 0, 0, 0), asm.GetName().Version);
                 Assert.Equal("System.Web.WebPages.Deployment", asm.GetName().Name);
 
-                using (WebUtils.CreateHttpRuntime(@"~\foo", "."))
+                using (WebUtils.CreateHttpRuntime(Path.Combine(@"~", @"foo"), "."))
                 {
-                    string path = Path.Combine(_tempPath, @"ConfigTestSites\NoCshtmlConfigV1");
+                    string path = Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"NoCshtmlConfigV1"));
 
                     // Act
                     Version ver = WebPagesDeployment.GetVersionWithoutEnabledCheck(path);
@@ -182,42 +185,46 @@ namespace System.Web.WebPages.Deployment.Test
                     Assert.Equal(new Version(1, 0, 0, 0), explicitVersion);
                 }
             });
+#endif
         }
 
-        [Fact]
+        [Fact(Skip = "webForCore: side-by-side Web Pages versions (another System.Web.WebPages.Deployment loaded next to this one, as from the GAC): .NET has no GAC and an AssemblyLoadContext holds one version of a name.")]
         public void GetVersionIgnoresUnsignedConfigDll()
         {
+#if NETFRAMEWORK
             AppDomainUtils.RunInSeparateAppDomain(() =>
             {
                 // Arrange - Load v2 Config
-                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, @"ConfigTestAssemblies\V2_Unsigned\System.Web.WebPages.Deployment.dll"));
+                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, Path.Combine(@"ConfigTestAssemblies", @"V2_Unsigned", @"System.Web.WebPages.Deployment.dll")));
                 Assert.Equal(new Version(2, 0, 0, 0), asm.GetName().Version);
                 Assert.Equal("System.Web.WebPages.Deployment", asm.GetName().Name);
 
-                using (WebUtils.CreateHttpRuntime(@"~\foo", "."))
+                using (WebUtils.CreateHttpRuntime(Path.Combine(@"~", @"foo"), "."))
                 {
                     // Act
-                    Version ver = WebPagesDeployment.GetVersionWithoutEnabledCheck(Path.Combine(_tempPath, @"ConfigTestSites\CshtmlFileNoVersion"));
+                    Version ver = WebPagesDeployment.GetVersionWithoutEnabledCheck(Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"CshtmlFileNoVersion")));
 
                     // Assert
                     Assert.Equal(new Version("1.0.0.0"), ver);
                 }
             });
+#endif
         }
 
-        [Fact]
+        [Fact(Skip = "webForCore: side-by-side Web Pages versions (another System.Web.WebPages.Deployment loaded next to this one, as from the GAC): .NET has no GAC and an AssemblyLoadContext holds one version of a name.")]
         public void GetVersionReturnsV1IfCshtmlFilePresentButNoVersionIsSpecifiedInConfigOrBin()
         {
+#if NETFRAMEWORK
             AppDomainUtils.RunInSeparateAppDomain(() =>
             {
                 // Arrange - Load v2 Config
-                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, @"ConfigTestAssemblies\V2_Signed\System.Web.WebPages.Deployment.dll"));
+                Assembly asm = Assembly.LoadFrom(Path.Combine(_tempPath, Path.Combine(@"ConfigTestAssemblies", @"V2_Signed", @"System.Web.WebPages.Deployment.dll")));
                 Assert.Equal(new Version(2, 0, 0, 0), asm.GetName().Version);
                 Assert.Equal("System.Web.WebPages.Deployment", asm.GetName().Name);
 
-                using (WebUtils.CreateHttpRuntime(@"~\foo", "."))
+                using (WebUtils.CreateHttpRuntime(Path.Combine(@"~", @"foo"), "."))
                 {
-                    string path = Path.Combine(_tempPath, @"ConfigTestSites\CshtmlFileNoVersion");
+                    string path = Path.Combine(_tempPath, Path.Combine(@"ConfigTestSites", @"CshtmlFileNoVersion"));
 
                     // Act
                     Version ver = WebPagesDeployment.GetVersionWithoutEnabledCheck(path);
@@ -228,6 +235,7 @@ namespace System.Web.WebPages.Deployment.Test
                     Assert.Null(explicitVersion);
                 }
             });
+#endif
         }
 
         [Fact]
@@ -278,7 +286,7 @@ namespace System.Web.WebPages.Deployment.Test
             // Arrange
             var path = "blah";
             var fileSystem = new TestFileSystem();
-            fileSystem.AddFile(@"blah\Foo.cshtml");
+            fileSystem.AddFile(Path.Combine(@"blah", @"Foo.cshtml"));
             var configuration = new NameValueCollection();
 
             // Act
