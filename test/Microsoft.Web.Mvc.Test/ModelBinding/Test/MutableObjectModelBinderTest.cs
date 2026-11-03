@@ -12,6 +12,7 @@ using Moq;
 
 namespace Microsoft.Web.Mvc.ModelBinding.Test
 {
+    [Xunit.Collection("Uses ModelBinderConfig's error message providers")] // webForCore: a static the tests set
     public class MutableObjectModelBinderTest
     {
         [Fact]
@@ -148,8 +149,8 @@ namespace Microsoft.Web.Mvc.ModelBinding.Test
             // Act & Assert, confirming type name and full stack are available in Exception
             MissingMethodException exception = Assert.Throws<MissingMethodException>(
                 () => testableBinder.CreateModelPublic(null, bindingContext),
-                "No parameterless constructor defined for this object. Object type 'Microsoft.Web.Mvc.ModelBinding.Test.MutableObjectModelBinderTest+NoParameterlessCtor'.");
-            Assert.Contains("System.Activator.CreateInstance(", exception.ToString());
+                "Cannot dynamically create an instance of type \'Microsoft.Web.Mvc.ModelBinding.Test.MutableObjectModelBinderTest+NoParameterlessCtor\'. Reason: No parameterless constructor defined.");
+            Assert.Contains("System.RuntimeType.", exception.ToString()); // webForCore: .NET's Activator frames
         }
 
         [Fact]
@@ -504,8 +505,7 @@ namespace Microsoft.Web.Mvc.ModelBinding.Test
             testableBinder.SetPropertyPublic(null, bindingContext, propertyMetadata, dtoResult);
 
             // Assert
-            Assert.Equal("Date of death can't be before date of birth." + Environment.NewLine
-                       + "Parameter name: value",
+            Assert.Equal("Date of death can't be before date of birth. (Parameter 'value')",
                          bindingContext.ModelState["foo"].Errors[0].Exception.Message);
         }
 
@@ -592,8 +592,7 @@ namespace Microsoft.Web.Mvc.ModelBinding.Test
             // Assert
             Assert.False(bindingContext.ModelState.IsValid);
             ModelError error = Assert.Single(bindingContext.ModelState["foo.NameNoAttribute"].Errors);
-            Assert.Equal("This is a different exception." + Environment.NewLine
-                       + "Parameter name: value",
+            Assert.Equal("This is a different exception. (Parameter 'value')",
                          error.Exception.Message);
         }
 
