@@ -25,6 +25,7 @@ namespace System.Web.Helpers.Test
             VerifyKey(configInfo, "ASP.NET Web Pages Version");
         }
 
+        // webForCore: Linux has PATH (environment variable names are case sensitive) and no SystemDrive.
         [Fact]
         public void EnvironmentVariablesReturnsExpectedInfo()
         {
@@ -33,8 +34,7 @@ namespace System.Web.Helpers.Test
             // verification
             // checks only subset of values
             Assert.NotNull(envVariables);
-            VerifyKey(envVariables, "Path");
-            VerifyKey(envVariables, "SystemDrive");
+            VerifyKey(envVariables, "PATH");
         }
 
         [Fact]
@@ -85,6 +85,8 @@ namespace System.Web.Helpers.Test
         }
 #endif
 
+        // webForCore: Code Access Security (legacy CAS policy, AppDomainSetup compatibility switches) does not exist on .NET.
+#if NETFRAMEWORK
         [Fact]
         public void ServerInfoDoesNotProduceLegacyCasForHomogenousAppDomain()
         {
@@ -99,7 +101,10 @@ namespace System.Web.Helpers.Test
 
             AppDomainUtils.RunInSeparateAppDomain(GetAppDomainSetup(legacyCasEnabled: false), action);
         }
+#endif
 
+        // webForCore: Code Access Security (legacy CAS policy, AppDomainSetup compatibility switches) does not exist on .NET.
+#if NETFRAMEWORK
         [Fact]
         public void ServerInfoProducesLegacyCasForNonHomogenousAppDomain()
         {
@@ -116,6 +121,7 @@ namespace System.Web.Helpers.Test
 
             AppDomainUtils.RunInSeparateAppDomain(GetAppDomainSetup(legacyCasEnabled: true), action);
         }
+#endif
 
         //[Fact]
         //public void SqlServerInfoReturnsExpectedInfo() {
@@ -157,6 +163,8 @@ namespace System.Web.Helpers.Test
             Assert.False(String.IsNullOrEmpty(info[key]));
         }
 
+        // webForCore: Code Access Security (legacy CAS policy, AppDomainSetup compatibility switches) does not exist on .NET.
+#if NETFRAMEWORK
         private AppDomainSetup GetAppDomainSetup(bool legacyCasEnabled)
         {
             var setup = new AppDomainSetup();
@@ -166,5 +174,6 @@ namespace System.Web.Helpers.Test
             }
             return setup;
         }
+#endif
     }
 }
