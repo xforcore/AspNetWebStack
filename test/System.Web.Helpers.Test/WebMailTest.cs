@@ -234,12 +234,12 @@ namespace System.Web.Helpers.Test
         {
             Assert.Throws<ArgumentException>(
                 () => WebMail.Send("foo@bar.com", "sub", "body", filesToAttach: new string[] { "c:\\foo.txt", null }),
-                "A string in the collection is null or empty.\r\nParameter name: filesToAttach"
+                "A string in the collection is null or empty. (Parameter 'filesToAttach')"
             );
 
             Assert.Throws<ArgumentException>(
                 () => WebMail.Send("foo@bar.com", "sub", "body", additionalHeaders: new string[] { "foo:bar", null }),
-                "A string in the collection is null or empty.\r\nParameter name: additionalHeaders"
+                "A string in the collection is null or empty. (Parameter 'additionalHeaders')"
             );
         }
 
