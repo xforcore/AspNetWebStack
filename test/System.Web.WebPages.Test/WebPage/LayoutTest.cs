@@ -160,6 +160,7 @@ namespace System.Web.WebPages.Test
             Assert.Equal("MyPage<layout2><layout1>hello world</layout1></layout2>", result);
         }
 
+        // webForCore: the layout writes "\r\n" (Razor's literal text from a CRLF source), as on .NET Framework.
         [Fact]
         public void LayoutSectionsTest()
         {
@@ -270,9 +271,9 @@ namespace System.Web.WebPages.Test
             Utils.AssignObjectFactoriesAndDisplayModeProvider(page, layout1, layout2);
 
             var result = Utils.RenderWebPage(page);
-            var expected = "MyPage" + Environment.NewLine
-                         + "<layout2 header><layout1 header>index header</layout1 header></layout2 header>" + Environment.NewLine
-                         + "<layout2><layout1>hello world</layout1></layout2>" + Environment.NewLine
+            var expected = "MyPage" + "\r\n"
+                         + "<layout2 header><layout1 header>index header</layout1 header></layout2 header>" + "\r\n"
+                         + "<layout2><layout1>hello world</layout1></layout2>" + "\r\n"
                          + "<layout2 footer><layout1 footer>index footer</layout1 footer></layout2 footer>";
             Assert.Equal(expected, result);
         }
