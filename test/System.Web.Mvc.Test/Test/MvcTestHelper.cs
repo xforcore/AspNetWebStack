@@ -29,11 +29,12 @@ namespace System.Web.Mvc.Test
 
         private static void CreateMvcTestAssembly1()
         {
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            // webForCore: AssemblyBuilderAccess.Save is .NET Framework only; PersistedAssemblyBuilder saves on .NET.
+            PersistedAssemblyBuilder assemblyBuilder = new PersistedAssemblyBuilder(
                 new AssemblyName("MvcAssembly1"),
-                AssemblyBuilderAccess.Save);
+                typeof(object).Assembly);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                "MvcAssembly1", "MvcAssembly1.dll");
+                "MvcAssembly1");
 
             CreateController(moduleBuilder, "NS1a.NS1b.C1Controller");
             CreateController(moduleBuilder, "NS2a.NS2b.C2Controller");
@@ -43,11 +44,12 @@ namespace System.Web.Mvc.Test
 
         private static void CreateMvcTestAssembly2()
         {
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            // webForCore: AssemblyBuilderAccess.Save is .NET Framework only; PersistedAssemblyBuilder saves on .NET.
+            PersistedAssemblyBuilder assemblyBuilder = new PersistedAssemblyBuilder(
                 new AssemblyName("MvcAssembly2"),
-                AssemblyBuilderAccess.Save);
+                typeof(object).Assembly);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                "MvcAssembly2", "MvcAssembly2.dll");
+                "MvcAssembly2");
 
             CreateController(moduleBuilder, "NS3a.NS3b.C3Controller");
             CreateController(moduleBuilder, "NS4a.NS4b.C4Controller");
@@ -57,11 +59,12 @@ namespace System.Web.Mvc.Test
 
         private static void CreateMvcTestAssembly3()
         {
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            // webForCore: AssemblyBuilderAccess.Save is .NET Framework only; PersistedAssemblyBuilder saves on .NET.
+            PersistedAssemblyBuilder assemblyBuilder = new PersistedAssemblyBuilder(
                 new AssemblyName("MvcAssembly3"),
-                AssemblyBuilderAccess.Save);
+                typeof(object).Assembly);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                "MvcAssembly3", "MvcAssembly3.dll");
+                "MvcAssembly3");
 
             // Type names (but not namespaces) are the same as those in TestAssembly1
             CreateController(moduleBuilder, "NS3a.NS3b.C1Controller");
@@ -72,11 +75,12 @@ namespace System.Web.Mvc.Test
 
         private static void CreateMvcTestAssembly4()
         {
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+            // webForCore: AssemblyBuilderAccess.Save is .NET Framework only; PersistedAssemblyBuilder saves on .NET.
+            PersistedAssemblyBuilder assemblyBuilder = new PersistedAssemblyBuilder(
                 new AssemblyName("MvcAssembly4"),
-                AssemblyBuilderAccess.Save);
+                typeof(object).Assembly);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(
-                "MvcAssembly4", "MvcAssembly4.dll");
+                "MvcAssembly4");
 
             // Namespaces and type names are the same as those in TestAssembly1
             CreateController(moduleBuilder, "NS1a.NS1b.C1Controller");
