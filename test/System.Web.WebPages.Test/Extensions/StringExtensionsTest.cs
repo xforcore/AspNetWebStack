@@ -79,14 +79,15 @@ namespace System.Web.WebPages.Test
             Assert.Equal(-1.11m, "adlfkj".AsDecimal(-1.11m));
         }
 
+        // webForCore: ICU's ar-DZ decimal separator is "," (Windows NLS: "."); the culture's own.
         [Fact]
         public void AsDecimalUsesCurrentCulture()
         {
             decimal value = 12345.00M;
             using (new CultureReplacer("ar-DZ"))
             {
-                Assert.Equal("12345.00", value.ToString(CultureInfo.CurrentCulture));
-                Assert.Equal("12345.00", value.ToString());
+                Assert.Equal("12345" + CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator + "00", value.ToString(CultureInfo.CurrentCulture));
+                Assert.Equal("12345" + CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator + "00", value.ToString());
             }
 
             using (new CultureReplacer("bg-BG"))
