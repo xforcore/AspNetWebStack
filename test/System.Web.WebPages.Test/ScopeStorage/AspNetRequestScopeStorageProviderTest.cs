@@ -8,6 +8,7 @@ using Moq;
 
 namespace System.Web.WebPages.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: resets the static ScopeStorage
     public class AspNetRequestStorageProvider
     {
         [Fact]
