@@ -100,7 +100,7 @@ namespace System.Web.Mvc.Test
                         new RequestContext(new Mock<HttpContextBase>().Object, new RouteData()),
                         String.Empty);
                 },
-                "Value cannot be null or empty.\r\nParameter name: controllerName");
+                "Value cannot be null or empty. (Parameter 'controllerName')");
         }
 
         [Fact]
@@ -180,7 +180,7 @@ namespace System.Web.Mvc.Test
             // Act
             Assert.Throws<ArgumentException>(
                 delegate { factory.GetControllerInstance(requestContext, typeof(int)); },
-                "The controller type 'System.Int32' must implement IController.\r\nParameter name: controllerType");
+                "The controller type 'System.Int32' must implement IController. (Parameter 'controllerType')");
         }
 
         [Fact]
@@ -277,7 +277,7 @@ namespace System.Web.Mvc.Test
             // Act
             Assert.Throws<ArgumentException>(
                 delegate { factory.GetControllerType(requestContext, String.Empty); },
-                "Value cannot be null or empty.\r\nParameter name: controllerName");
+                "Value cannot be null or empty. (Parameter 'controllerName')");
         }
 
         [Fact]
