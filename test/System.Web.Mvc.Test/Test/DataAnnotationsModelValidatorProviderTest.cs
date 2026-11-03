@@ -104,17 +104,17 @@ namespace System.Web.Mvc.Test
             // Validation attribute must derive from ValidationAttribute
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(object), typeof(MyValidationAttributeAdapter)),
-                "The type System.Object must derive from System.ComponentModel.DataAnnotations.ValidationAttribute\r\nParameter name: attributeType");
+                "The type System.Object must derive from System.ComponentModel.DataAnnotations.ValidationAttribute (Parameter 'attributeType')");
 
             // Adapter must derive from ModelValidator
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(MyValidationAttribute), typeof(object)),
-                "The type System.Object must derive from System.Web.Mvc.ModelValidator\r\nParameter name: adapterType");
+                "The type System.Object must derive from System.Web.Mvc.ModelValidator (Parameter 'adapterType')");
 
             // Adapter must have the expected constructor
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(MyValidationAttribute), typeof(MyValidationAttributeAdapterBadCtor)),
-                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttributeAdapterBadCtor must have a public constructor which accepts three parameters of types System.Web.Mvc.ModelMetadata, System.Web.Mvc.ControllerContext, and System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttribute\r\nParameter name: adapterType");
+                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttributeAdapterBadCtor must have a public constructor which accepts three parameters of types System.Web.Mvc.ModelMetadata, System.Web.Mvc.ControllerContext, and System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttribute (Parameter 'adapterType')");
         }
 
         [Fact]
@@ -160,7 +160,7 @@ namespace System.Web.Mvc.Test
             // Validation attribute must derive from ValidationAttribute
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterAdapterFactory(typeof(object), factory),
-                "The type System.Object must derive from System.ComponentModel.DataAnnotations.ValidationAttribute\r\nParameter name: attributeType");
+                "The type System.Object must derive from System.ComponentModel.DataAnnotations.ValidationAttribute (Parameter 'attributeType')");
         }
 
         [Fact]
@@ -198,12 +198,12 @@ namespace System.Web.Mvc.Test
             // Adapter must derive from ModelValidator
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterDefaultAdapter(typeof(object)),
-                "The type System.Object must derive from System.Web.Mvc.ModelValidator\r\nParameter name: adapterType");
+                "The type System.Object must derive from System.Web.Mvc.ModelValidator (Parameter 'adapterType')");
 
             // Adapter must have the expected constructor
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterDefaultAdapter(typeof(MyValidationAttributeAdapterBadCtor)),
-                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttributeAdapterBadCtor must have a public constructor which accepts three parameters of types System.Web.Mvc.ModelMetadata, System.Web.Mvc.ControllerContext, and System.ComponentModel.DataAnnotations.ValidationAttribute\r\nParameter name: adapterType");
+                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidationAttributeAdapterBadCtor must have a public constructor which accepts three parameters of types System.Web.Mvc.ModelMetadata, System.Web.Mvc.ControllerContext, and System.ComponentModel.DataAnnotations.ValidationAttribute (Parameter 'adapterType')");
         }
 
         [Fact]
@@ -323,17 +323,17 @@ namespace System.Web.Mvc.Test
             // Validation attribute must derive from ValidationAttribute
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterValidatableObjectAdapter(typeof(object), typeof(MyValidatableAdapter)),
-                "The type System.Object must derive from System.ComponentModel.DataAnnotations.IValidatableObject\r\nParameter name: modelType");
+                "The type System.Object must derive from System.ComponentModel.DataAnnotations.IValidatableObject (Parameter 'modelType')");
 
             // Adapter must derive from ModelValidator
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterValidatableObjectAdapter(typeof(MyValidatableClass), typeof(object)),
-                "The type System.Object must derive from System.Web.Mvc.ModelValidator\r\nParameter name: adapterType");
+                "The type System.Object must derive from System.Web.Mvc.ModelValidator (Parameter 'adapterType')");
 
             // Adapter must have the expected constructor
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterValidatableObjectAdapter(typeof(MyValidatableClass), typeof(MyValidatableAdapterBadCtor)),
-                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidatableAdapterBadCtor must have a public constructor which accepts two parameters of types System.Web.Mvc.ModelMetadata and System.Web.Mvc.ControllerContext.\r\nParameter name: adapterType");
+                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidatableAdapterBadCtor must have a public constructor which accepts two parameters of types System.Web.Mvc.ModelMetadata and System.Web.Mvc.ControllerContext. (Parameter 'adapterType')");
         }
 
         [Fact]
@@ -379,7 +379,7 @@ namespace System.Web.Mvc.Test
             // Validation attribute must derive from ValidationAttribute
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterValidatableObjectAdapterFactory(typeof(object), factory),
-                "The type System.Object must derive from System.ComponentModel.DataAnnotations.IValidatableObject\r\nParameter name: modelType");
+                "The type System.Object must derive from System.ComponentModel.DataAnnotations.IValidatableObject (Parameter 'modelType')");
         }
 
         [Fact]
@@ -417,12 +417,12 @@ namespace System.Web.Mvc.Test
             // Adapter must derive from ModelValidator
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterDefaultValidatableObjectAdapter(typeof(object)),
-                "The type System.Object must derive from System.Web.Mvc.ModelValidator\r\nParameter name: adapterType");
+                "The type System.Object must derive from System.Web.Mvc.ModelValidator (Parameter 'adapterType')");
 
             // Adapter must have the expected constructor
             Assert.Throws<ArgumentException>(
                 () => DataAnnotationsModelValidatorProvider.RegisterDefaultValidatableObjectAdapter(typeof(MyValidatableAdapterBadCtor)),
-                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidatableAdapterBadCtor must have a public constructor which accepts two parameters of types System.Web.Mvc.ModelMetadata and System.Web.Mvc.ControllerContext.\r\nParameter name: adapterType");
+                "The type System.Web.Mvc.Test.DataAnnotationsModelValidatorProviderTest+MyValidatableAdapterBadCtor must have a public constructor which accepts two parameters of types System.Web.Mvc.ModelMetadata and System.Web.Mvc.ControllerContext. (Parameter 'adapterType')");
         }
 
         [Fact]
