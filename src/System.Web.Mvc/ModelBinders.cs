@@ -3,7 +3,10 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+// webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; its Binary support is compiled out.
+#if NETFRAMEWORK
 using System.Data.Linq;
+#endif
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -47,7 +50,9 @@ namespace System.Web.Mvc
             {
                 { typeof(HttpPostedFileBase), new HttpPostedFileBaseModelBinder() },
                 { typeof(byte[]), new ByteArrayModelBinder() },
+#if NETFRAMEWORK
                 { typeof(Binary), new LinqBinaryModelBinder() },
+#endif
                 { typeof(CancellationToken), new CancellationTokenModelBinder() }
             };
             return binders;
