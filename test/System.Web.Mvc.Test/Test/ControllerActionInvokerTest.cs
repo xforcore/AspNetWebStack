@@ -942,7 +942,7 @@ namespace System.Web.Mvc.Test
                 OnActionExecutingImpl = delegate(ActionExecutingContext filterContext) { actions.Add("OnActionExecuting"); },
                 OnActionExecutedImpl = delegate(ActionExecutedContext filterContext)
                 {
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                     actions.Add("OnActionExecuted");
                     Assert.Null(filterContext.Exception);
                     Assert.False(filterContext.ExceptionHandled);
@@ -952,7 +952,7 @@ namespace System.Web.Mvc.Test
             Func<ActionExecutedContext> continuation = delegate
             {
                 actions.Add("Continuation");
-                Thread.CurrentThread.Abort();
+                throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                 return null;
             };
 
@@ -961,7 +961,7 @@ namespace System.Web.Mvc.Test
             // Act & Assert
             Assert.Throws<ThreadAbortException>(
                 delegate { ControllerActionInvoker.InvokeActionMethodFilter(filter, context, continuation); },
-                "Thread was being aborted.");
+                "System error." /* webForCore: a thrown ThreadAbortException's default message */);
             Assert.Equal(3, actions.Count);
             Assert.Equal("OnActionExecuting", actions[0]);
             Assert.Equal("Continuation", actions[1]);
@@ -1316,7 +1316,7 @@ namespace System.Web.Mvc.Test
                 .Returns(
                     delegate(ControllerContext cc, IList<IAuthorizationFilter> f, ActionDescriptor a)
                     {
-                        Thread.CurrentThread.Abort();
+                        throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                         return null;
                     });
             ControllerActionInvokerHelper helper = mockHelper.Object;
@@ -1331,7 +1331,7 @@ namespace System.Web.Mvc.Test
             catch (ThreadAbortException)
             {
                 wasAborted = true;
-                Thread.ResetAbort();
+                /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
             }
 
             // Assert
@@ -1933,7 +1933,7 @@ namespace System.Web.Mvc.Test
             Action continuation = delegate
             {
                 actions.Add("Continuation");
-                Thread.CurrentThread.Abort();
+                throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
             };
             ActionResult actionResult = new ContinuationResult(continuation);
             Mock<ResultExecutingContext> mockPreContext = new Mock<ResultExecutingContext>() { DefaultValue = DefaultValue.Mock };
@@ -1943,7 +1943,7 @@ namespace System.Web.Mvc.Test
                 OnResultExecutingImpl = delegate(ResultExecutingContext filterContext) { actions.Add("OnResultExecuting"); },
                 OnResultExecutedImpl = delegate(ResultExecutedContext filterContext)
                 {
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                     actions.Add("OnResultExecuted");
                     Assert.Same(actionResult, filterContext.Result);
                     Assert.Null(filterContext.Exception);
@@ -1956,7 +1956,7 @@ namespace System.Web.Mvc.Test
             // Act & Assert
             Assert.Throws<ThreadAbortException>(
                 delegate { helper.PublicInvokeActionResultWithFilters(mockPreContext.Object, filters, actionResult); },
-                "Thread was being aborted.");
+                "System error." /* webForCore: a thrown ThreadAbortException's default message */);
             Assert.Equal(3, actions.Count);
             Assert.Equal("OnResultExecuting", actions[0]);
             Assert.Equal("Continuation", actions[1]);
