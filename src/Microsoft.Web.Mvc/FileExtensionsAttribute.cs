@@ -63,6 +63,10 @@ namespace Microsoft.Web.Mvc
             yield return rule;
         }
 
+        // webForCore: .NET Framework's Path.InvalidPathChars.
+        private static readonly char[] FrameworkInvalidPathChars = new[] { '"', '<', '>', '|', '\0' }
+            .Concat(System.Linq.Enumerable.Range(1, 31).Select(c => (char)c)).ToArray();
+
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -88,6 +92,12 @@ namespace Microsoft.Web.Mvc
         [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "These strings are normalized to lowercase because they are presented to the user in lowercase format")]
         private bool ValidateExtension(string fileName)
         {
+            // webForCore: .NET Framework's Path.GetExtension threw ArgumentException for these characters (Path.CheckInvalidPathChars),
+            // so such a name was invalid; .NET's no longer checks.
+            if (fileName.IndexOfAny(FrameworkInvalidPathChars) >= 0)
+            {
+                return false;
+            }
             try
             {
                 return ExtensionsParsed.Contains(Path.GetExtension(fileName).ToLowerInvariant());
