@@ -194,7 +194,8 @@ namespace System.Web.Http.WebHost
             // Asynchronously write the response body.  If there is no body, we use
             // a completed task to share the Finally() below.
             // The response-writing task will not fault -- it handles errors internally.
-            if (response.Content != null)
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            if (ResponseContent.Get(response) != null)
             {
                 await WriteResponseContentAsync(httpContextBase, request, response, exceptionLogger, exceptionHandler, cancellationToken);
             }
@@ -514,7 +515,8 @@ namespace System.Web.Http.WebHost
             // fails to find a formatter, or this may be an HttpResponseException without
             // content.  In either case, cleanup and return a completed task.
 
-            if (errorResponse.Content == null)
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            if (ResponseContent.Get(errorResponse) == null)
             {
                 errorResponse.Dispose();
                 return true;
@@ -600,7 +602,8 @@ namespace System.Web.Http.WebHost
             Contract.Assert(response != null);
             HttpResponseHeaders responseHeaders = response.Headers;
             Contract.Assert(responseHeaders != null);
-            HttpContent content = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent content = ResponseContent.Get(response);
             bool isTransferEncodingChunked = responseHeaders.TransferEncodingChunked == true;
             HttpHeaderValueCollection<TransferCodingHeaderValue> transferEncoding = responseHeaders.TransferEncoding;
 
