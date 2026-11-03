@@ -462,12 +462,12 @@ namespace System.Web.Mvc.Async.Test
                 OnActionExecutedImpl = filterContext =>
                 {
                     onActionExecutedWasCalled = true;
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                 }
             };
             Func<IAsyncResult> beginExecute = delegate
             {
-                Thread.CurrentThread.Abort();
+                throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                 return null;
             };
 
@@ -638,12 +638,12 @@ namespace System.Web.Mvc.Async.Test
                 OnActionExecutedImpl = filterContext =>
                 {
                     onActionExecutedWasCalled = true;
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                 }
             };
             Func<ActionResult> action = delegate
             {
-                Thread.CurrentThread.Abort();
+                throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                 return null;
             };
 
@@ -1037,7 +1037,7 @@ namespace System.Web.Mvc.Async.Test
 
             public ActionResult ActionCallsThreadAbortAsync()
             {
-                Thread.CurrentThread.Abort();
+                throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                 return null;
             }
 
@@ -1167,7 +1167,7 @@ namespace System.Web.Mvc.Async.Test
             {
                 public override void ExecuteResult(ControllerContext context)
                 {
-                    Thread.CurrentThread.Abort();
+                    throw (ThreadAbortException)Activator.CreateInstance(typeof(ThreadAbortException), true); // webForCore: as the fork's Response.End
                 }
             }
 
@@ -1186,7 +1186,7 @@ namespace System.Web.Mvc.Async.Test
             {
                 try
                 {
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                 }
                 catch (ThreadStateException)
                 {
@@ -1198,7 +1198,7 @@ namespace System.Web.Mvc.Async.Test
             {
                 try
                 {
-                    Thread.ResetAbort();
+                    /* webForCore: Thread.ResetAbort() not needed for a thrown ThreadAbortException */
                 }
                 catch (ThreadStateException)
                 {
