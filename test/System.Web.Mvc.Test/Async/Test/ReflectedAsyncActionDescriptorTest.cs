@@ -64,8 +64,7 @@ namespace System.Web.Mvc.Async.Test
             // Act & assert
             Assert.Throws<ArgumentException>(
                 delegate { new ReflectedAsyncActionDescriptor(getHashCodeMethod, _completedMethod, "SomeAction", cd); },
-                "Cannot create a descriptor for instance method 'Int32 GetHashCode()' on type 'System.Object' because the type does not derive from ControllerBase." + Environment.NewLine
-              + "Parameter name: asyncMethodInfo");
+                "Cannot create a descriptor for instance method 'Int32 GetHashCode()' on type 'System.Object' because the type does not derive from ControllerBase. (Parameter 'asyncMethodInfo')");
         }
 
         [Fact]
@@ -89,8 +88,7 @@ namespace System.Web.Mvc.Async.Test
             // Act & assert
             Assert.Throws<ArgumentException>(
                 delegate { new ReflectedAsyncActionDescriptor(_asyncMethod, getHashCodeMethod, "SomeAction", cd); },
-                "Cannot create a descriptor for instance method 'Int32 GetHashCode()' on type 'System.Object' because the type does not derive from ControllerBase." + Environment.NewLine
-              + "Parameter name: completedMethodInfo");
+                "Cannot create a descriptor for instance method 'Int32 GetHashCode()' on type 'System.Object' because the type does not derive from ControllerBase. (Parameter 'completedMethodInfo')");
         }
 
         [Fact]
