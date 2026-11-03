@@ -50,6 +50,19 @@ namespace System.Web.Http.WebHost
             }
         }
 
+        // webForCore: .NET's StreamContent copies with CopyToAsync, which NonOwnedStream forwards to the inner stream;
+        // that skips the switch to Request.InputStream once the body is read to the end (SwapToSeekableStream).
+        // .NET Framework's StreamContent read through this stream, so copy through ReadAsync here.
+        public override async Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        {
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead;
+            while ((bytesRead = await ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+            {
+                await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken);
+            }
+        }
+
         public override int EndRead(IAsyncResult asyncResult)
         {
             ThrowIfDisposed();
