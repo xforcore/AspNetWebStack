@@ -142,7 +142,7 @@ namespace System.Web.Mvc.Test
             ControllerBuilder cb = new ControllerBuilder();
             Assert.Throws<ArgumentException>(
                 delegate { cb.SetControllerFactory(typeof(int)); },
-                "The controller factory type 'System.Int32' must implement the IControllerFactory interface.\r\nParameter name: controllerFactoryType");
+                "The controller factory type 'System.Int32' must implement the IControllerFactory interface. (Parameter 'controllerFactoryType')");
         }
 
         [Fact]
