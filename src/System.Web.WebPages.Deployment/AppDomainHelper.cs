@@ -19,31 +19,34 @@ namespace System.Web.WebPages.Deployment
                 return null;
             }
 
-            AppDomain appDomain = null;
+            // webForCore: .NET has no AppDomains (CreateDomain, AppDomainSetup.PrivateBinPath, Evidence). A collectible
+            // AssemblyLoadContext does the same job: the bin assemblies load there, references resolve from the bin
+            // directory and otherwise as in the app (the default context), and it is unloaded afterwards.
+            var loadContext = new System.Runtime.Loader.AssemblyLoadContext(typeof(AppDomainHelper).Namespace, isCollectible: true);
+            loadContext.Resolving += (context, name) =>
+            {
+                string candidate = Path.Combine(binDirectory, name.Name + ".dll");
+                return File.Exists(candidate) ? context.LoadFromAssemblyPath(candidate) : null;
+            };
             try
             {
-                var appDomainSetup = new AppDomainSetup
-                {
-                    ApplicationBase = appPath,
-                    ConfigurationFile = configPath,
-                    PrivateBinPath = binDirectory,
-                };
-                appDomain = AppDomain.CreateDomain(typeof(AppDomainHelper).Namespace, AppDomain.CurrentDomain.Evidence, appDomainSetup);
-
-                var type = typeof(RemoteAssemblyLoader);
-                var instance = (RemoteAssemblyLoader)appDomain.CreateInstanceAndUnwrap(type.Assembly.FullName, type.FullName);
-
                 return Directory.EnumerateFiles(binDirectory, "*.dll")
                     .ToDictionary(assemblyPath => assemblyPath,
-                                  assemblyPath => instance.GetReferences(assemblyPath));
+                                  assemblyPath => GetReferences(loadContext, assemblyPath));
             }
             finally
             {
-                if (appDomain != null)
-                {
-                    AppDomain.Unload(appDomain);
-                }
+                loadContext.Unload();
             }
+        }
+
+        private static IEnumerable<string> GetReferences(System.Runtime.Loader.AssemblyLoadContext loadContext, string assemblyPath)
+        {
+            var assembly = loadContext.LoadFromAssemblyPath(Path.GetFullPath(assemblyPath));
+            return assembly.GetReferencedAssemblies()
+                .Select(asmName => loadContext.LoadFromAssemblyName(asmName).FullName)
+                .Concat(new[] { assembly.FullName })
+                .ToArray();
         }
 
         private sealed class RemoteAssemblyLoader : MarshalByRefObject
