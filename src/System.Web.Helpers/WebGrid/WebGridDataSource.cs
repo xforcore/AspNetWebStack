@@ -62,7 +62,9 @@ namespace System.Web.Helpers
                 // Force compile the underlying IQueryable
                 rowData = rowData.ToList();
             }
-            catch (ArgumentException)
+            // webForCore: .NET's sort wraps the comparer's ArgumentException in an InvalidOperationException ("Failed to
+            // compare two elements in the array"); .NET Framework's LINQ sort let it through.
+            catch (Exception e) when (e is ArgumentException || (e is InvalidOperationException && e.InnerException is ArgumentException))
             {
                 // The OrderBy method uses a generic comparer which fails when the collection contains 2 or more 
                 // items that cannot be compared (e.g. DBNulls, mixed types such as strings and ints et al) with the exception
