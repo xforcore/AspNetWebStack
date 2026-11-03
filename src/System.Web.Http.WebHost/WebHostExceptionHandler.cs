@@ -84,7 +84,8 @@ namespace System.Web.Http.WebHost
                     typeof(ExceptionContext).Name, "Response"), "context");
             }
 
-            HttpContent responseContent = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent responseContent = ResponseContent.Get(response);
 
             if (responseContent == null)
             {
