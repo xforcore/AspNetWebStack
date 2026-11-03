@@ -174,7 +174,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@ModelType Foo" + Environment.NewLine
+                "@ModelType Foo" + "\r\n"
               + "@ModelType Bar";
             var spans = ParseDocument(document, errors);
 
@@ -212,7 +212,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@ModelType Foo" + Environment.NewLine
+                "@ModelType Foo" + "\r\n"
               + "@Inherits Bar";
             var spans = ParseDocument(document, errors);
 
@@ -250,7 +250,7 @@ namespace System.Web.Mvc.Razor.Test
             // Arrange + Act
             List<RazorError> errors = new List<RazorError>();
             var document =
-                "@Inherits Bar" + Environment.NewLine
+                "@Inherits Bar" + "\r\n"
               + "@ModelType Foo";
             var spans = ParseDocument(document, errors);
 
