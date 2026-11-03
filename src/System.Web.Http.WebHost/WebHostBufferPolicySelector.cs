@@ -43,7 +43,8 @@ namespace System.Web.Http.WebHost
             }
 
             // Any HttpContent that knows its length is presumably already buffered internally.
-            HttpContent content = response.Content;
+            // webForCore: ResponseContent.Get treats .NET's EmptyContent as no content, as null was on .NET Framework.
+            HttpContent content = ResponseContent.Get(response);
             if (content != null)
             {
                 long? contentLength = content.Headers.ContentLength;
