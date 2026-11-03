@@ -31,14 +31,16 @@ namespace System.Web.WebPages.Test
                 () => { BuildManagerExceptionUtil.ThrowIfUnsupportedExtension(virtualPath, e); }, String.Format(CultureInfo.CurrentCulture, WebPageResources.WebPage_FileNotSupported, extension, virtualPath));
         }
 
-        [Fact]
+        [Fact(Skip = "webForCore: .NET Framework's machine.config registers a CodeDom provider for .js (JScript .NET); JScript does not exist on .NET.")]
         public void CodeDomDefinedExtensionThrowsTest()
         {
+#if NETFRAMEWORK
             var extension = ".js";
             var virtualPath = "Layout.js";
 
             Assert.Throws<HttpException>(
                 () => { BuildManagerExceptionUtil.ThrowIfCodeDomDefinedExtension(virtualPath, new HttpCompileException()); }, String.Format(CultureInfo.CurrentCulture, WebPageResources.WebPage_FileNotSupported, extension, virtualPath));
+#endif
         }
 
         [Fact]
