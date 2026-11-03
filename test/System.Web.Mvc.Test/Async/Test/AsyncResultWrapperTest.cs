@@ -476,8 +476,7 @@ namespace System.Web.Mvc.Async.Test
                 // Act & assert
                 Assert.Throws<ArgumentException>(
                     delegate { AsyncResultWrapper.End<int>(asyncResult); },
-                    "The provided IAsyncResult is not valid for this method." + Environment.NewLine
-                  + "Parameter name: asyncResult");
+                    "The provided IAsyncResult is not valid for this method. (Parameter 'asyncResult')");
             }
         }
 
@@ -505,8 +504,7 @@ namespace System.Web.Mvc.Async.Test
                 // Act & assert
                 Assert.Throws<ArgumentException>(
                     delegate { AsyncResultWrapper.End(asyncResult, "some other tag"); },
-                    "The provided IAsyncResult is not valid for this method." + Environment.NewLine
-                  + "Parameter name: asyncResult");
+                    "The provided IAsyncResult is not valid for this method. (Parameter 'asyncResult')");
             }
         }
 
