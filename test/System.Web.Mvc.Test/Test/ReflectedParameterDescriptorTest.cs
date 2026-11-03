@@ -144,6 +144,13 @@ namespace System.Web.Mvc.Test
 
         private static ReflectedParameterDescriptor GetParameterDescriptor(ParameterInfo parameterInfo)
         {
+            // webForCore: .NET's Attribute.GetCustomAttribute casts a mock ParameterInfo's object[] to Attribute[]
+            // (.NET Framework used "as" and got null), so the mock answers the BindAttribute lookup (the only one the
+            // constructor makes) with an empty Attribute[]; the tests' own setups are for other attribute types.
+            if (parameterInfo is IMocked<ParameterInfo> mocked)
+            {
+                mocked.Mock.Setup(pi => pi.GetCustomAttributes(typeof(BindAttribute), It.IsAny<bool>())).Returns(new Attribute[0]);
+            }
             return new ReflectedParameterDescriptor(parameterInfo, new Mock<ActionDescriptor>().Object);
         }
 
