@@ -12,6 +12,7 @@ using Moq;
 
 namespace System.Web.Routing
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: executes controllers; ControllerBase.Execute opens a transient ScopeStorage scope (xforcore/webForCore#114)
     public class AttributeRoutingTest
     {
         internal const string ResultKey = "MS_Test_Result";
