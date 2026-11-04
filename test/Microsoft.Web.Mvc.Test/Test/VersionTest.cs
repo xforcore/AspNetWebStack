@@ -13,7 +13,9 @@ namespace Microsoft.Web.Test
         public void VerifyMVCVersionChangesAreIntentional()
         {
             Version mvcVersion = VersionTestHelper.GetVersionFromAssembly("System.Web.Mvc", typeof(Controller));
-            Assert.Equal(new Version(5, 3, 1, 0), mvcVersion);
+            // webForCore: the released MVC 5.3.0's version, which webForCore's System.Web.Mvc has, as Microsoft's builds stamped
+            // it in place of this source's development version (5.3.1.0), so libraries built against Microsoft's bind (#141).
+            Assert.Equal(new Version(5, 3, 0, 0), mvcVersion);
         }
     }
 }
