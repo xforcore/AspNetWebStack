@@ -6,6 +6,7 @@ using Microsoft.TestCommon;
 
 namespace System.Web.Mvc.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: reads the static ModelValidatorProviders.Providers, which ValidationExtensionsTest, ModelValidatorTest and DefaultModelBinderTest in this collection clear (xforcore/webForCore#114)
     public class ModelValidatorProvidersTest
     {
         [Fact]
