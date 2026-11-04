@@ -9,6 +9,7 @@ using Moq;
 
 namespace System.Web.WebPages.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: renders helpers that read HtmlHelper.ValidationInputCssClassName and UnobtrusiveJavaScriptEnabled from ScopeStorage (xforcore/webForCore#113)
     public class SelectExtensionsTest
     {
         [Fact]
