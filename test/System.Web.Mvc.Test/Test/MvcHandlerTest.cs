@@ -11,6 +11,7 @@ using Moq.Protected;
 
 namespace System.Web.Mvc.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: executes controllers; ControllerBase.Execute opens a transient ScopeStorage scope (xforcore/webForCore#114)
     public class MvcHandlerTest
     {
         [Fact]
