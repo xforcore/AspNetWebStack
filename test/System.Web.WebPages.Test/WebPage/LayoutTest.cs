@@ -8,6 +8,7 @@ using Moq;
 
 namespace System.Web.WebPages.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: executes pages; WebPage.ExecutePageHierarchy opens a transient ScopeStorage scope (xforcore/webForCore#113)
     public class LayoutTest
     {
         [Fact]
