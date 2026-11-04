@@ -11,6 +11,7 @@ using Moq;
 
 namespace System.Web.Mvc.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: renders a Web Pages layout page; WebPage.ExecutePageHierarchy opens a transient ScopeStorage scope (xforcore/webForCore#114)
     public class RazorViewTest
     {
         [Fact]
