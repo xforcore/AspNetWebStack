@@ -6,6 +6,7 @@ using Microsoft.TestCommon;
 
 namespace System.Web.Mvc.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: reads the static ValueProviderFactories.Factories, which ControllerBaseTest in this collection clears (xforcore/webForCore#114)
     public class ValueProviderFactoriesTest
     {
         [Fact]
