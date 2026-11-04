@@ -11,6 +11,7 @@ using Moq;
 
 namespace System.Web.WebPages.Test
 {
+    [Xunit.Collection("Uses ScopeStorage or ViewEngines.Engines")] // webForCore: renders helpers that read HtmlHelper.ValidationInputCssClassName and UnobtrusiveJavaScriptEnabled from ScopeStorage (xforcore/webForCore#113)
     public class InputHelperTest
     {
         private static readonly IDictionary<string, object> _attributesDictionary = new Dictionary<string, object> { { "baz", "BazValue" } };
