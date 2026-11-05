@@ -2,10 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
-// webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; its Binary support is compiled out.
-#if NETFRAMEWORK
 using System.Data.Linq;
-#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Web.Mvc;
 using Microsoft.Internal.Web.Utils;
@@ -86,13 +83,11 @@ namespace System.Web.WebPages.Html
 
         private static object GetHiddenFieldValue(object value)
         {
-#if NETFRAMEWORK
             Binary binaryValue = value as Binary;
             if (binaryValue != null)
             {
                 value = binaryValue.ToArray();
             }
-#endif
 
             byte[] byteArrayValue = value as byte[];
             if (byteArrayValue != null)
