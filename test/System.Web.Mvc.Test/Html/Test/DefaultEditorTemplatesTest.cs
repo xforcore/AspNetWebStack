@@ -3,9 +3,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-#if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Linq;
-#endif
 #if NETFRAMEWORK // webForCore: not on .NET
 using System.Data.Objects.DataClasses;
 #endif
@@ -377,11 +375,9 @@ namespace System.Web.Mvc.Html.Test
 
             byte[] byteValues = { 1, 2, 3, 4, 5 };
 
-#if NETFRAMEWORK // webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; MVC's Binary support is compiled out.
             Assert.Equal(
                 "&quot;AQIDBAU=&quot;<input id=\"FieldPrefix\" name=\"FieldPrefix\" type=\"hidden\" value=\"AQIDBAU=\" />",
                 DefaultEditorTemplates.HiddenInputTemplate(MakeHtmlHelper<Binary>(new Binary(byteValues))));
-#endif
 
             Assert.Equal(
                 "System.Byte[]<input id=\"FieldPrefix\" name=\"FieldPrefix\" type=\"hidden\" value=\"AQIDBAU=\" />",
