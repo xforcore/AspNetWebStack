@@ -4,10 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-// webForCore: System.Data.Linq (LINQ to SQL) does not exist on .NET; its Binary support is compiled out.
-#if NETFRAMEWORK
 using System.Data.Linq;
-#endif
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -135,14 +132,12 @@ namespace System.Web.Mvc.Html
 
             object model = viewData.Model;
 
-#if NETFRAMEWORK
             Binary modelAsBinary = model as Binary;
             if (modelAsBinary != null)
             {
                 model = Convert.ToBase64String(modelAsBinary.ToArray());
             }
             else
-#endif
             {
                 byte[] modelAsByteArray = model as byte[];
                 if (modelAsByteArray != null)
