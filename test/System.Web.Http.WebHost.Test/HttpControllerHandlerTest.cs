@@ -27,6 +27,7 @@ using Newtonsoft.Json.Linq;
 
 namespace System.Web.Http.WebHost
 {
+    [Xunit.Collection("Uses GlobalConfiguration")] // webForCore: GlobalConfigurationTest resets the static GlobalConfiguration.Configuration, which the other classes in this collection read and compare by reference (xforcore/webForCore#117)
     public class HttpControllerHandlerTest
     {
         public static TheoryDataSet<HttpMethod> AllHttpMethods

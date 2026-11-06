@@ -17,6 +17,7 @@ using Moq;
 
 namespace System.Web.Http.WebHost.Routing
 {
+    [Xunit.Collection("Uses GlobalConfiguration")] // webForCore: GlobalConfigurationTest resets the static GlobalConfiguration.Configuration, which the other classes in this collection read and compare by reference (xforcore/webForCore#117)
     public class HttpRouteExceptionHandlerTests
     {
         [Fact]

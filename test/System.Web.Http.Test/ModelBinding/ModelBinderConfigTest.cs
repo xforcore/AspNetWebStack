@@ -9,6 +9,7 @@ using Moq;
 
 namespace System.Web.Http.ModelBinding
 {
+    [Xunit.Collection("Uses ModelBinderConfig's error message providers")] // webForCore: a static the tests set (xforcore/webForCore#166)
     public class ModelBinderConfigTest
     {
         [Fact]

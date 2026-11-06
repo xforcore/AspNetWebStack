@@ -9,6 +9,7 @@ using Microsoft.TestCommon;
 
 namespace System.Web.Http.ModelBinding.Binders
 {
+    [Xunit.Collection("Uses ModelBinderConfig's error message providers")] // webForCore: a static the tests set (xforcore/webForCore#166)
     public class TypeConverterModelBinderTest
     {
         [Fact]

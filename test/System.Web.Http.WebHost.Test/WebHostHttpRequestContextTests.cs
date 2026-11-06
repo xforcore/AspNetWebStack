@@ -12,6 +12,7 @@ using Moq;
 
 namespace System.Web.Http.WebHost
 {
+    [Xunit.Collection("Uses GlobalConfiguration")] // webForCore: GlobalConfigurationTest resets the static GlobalConfiguration.Configuration, which the other classes in this collection read and compare by reference (xforcore/webForCore#117)
     public class WebHostHttpRequestContextTests
     {
         // webForCore: the original certificate (empty OIDs, long-form lengths) is rejected by .NET's DER reader outside
